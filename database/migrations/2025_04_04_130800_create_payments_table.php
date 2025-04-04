@@ -14,7 +14,17 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
+            $table->id(); 
+            $table->decimal('amount', 8, 2);
+
+            // Foreign key for the user making the payment
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Corresponds to 'user.id fk' referencing users table
+
+            // Foreign key for the booth being paid for.
+            // The image says 'roadshowid fk' which is ambiguous. Assuming it relates to paying for a 'booth'.
+            // If payment can be for something else (like event entry), you might need a polymorphic relationship or separate nullable foreign keys.
+            $table->foreignId('booth_id')->constrained('booths')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
