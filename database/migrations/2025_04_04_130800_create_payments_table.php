@@ -16,6 +16,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id(); 
             $table->decimal('amount', 8, 2);
+            $table->string('transaction_id')->nullable();
 
             
             // Foreign key for the user making the payment
