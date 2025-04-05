@@ -3,16 +3,31 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB; // Import DB facade
+use Illuminate\Support\Facades\Schema; // Import Schema facade
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // Temporarily disable foreign key checks for truncating
+        Schema::disableForeignKeyConstraints();
+
+        // Call seeders in order
+        $this->call([
+            UserSeeder::class,
+            EventSeeder::class,
+            BoothSeeder::class,
+            PaymentSeeder::class, // Depends on Users and Booths
+            FeedbackSeeder::class, 
+        ]);
+
+        // Re-enable foreign key checks
+        Schema::enableForeignKeyConstraints();
+
+        $this->command->info('Database seeded successfully!');
     }
 }
