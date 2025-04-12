@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>Payment</title>
+    <title>Page Title</title>
 
 </head>
 <body>
