@@ -86,4 +86,31 @@ class EventController extends Controller
 
         return view('organiser.event-profile', compact('event'));
     }
+
+    public function dashboard()
+    {
+        $organiserId = 1; // Fixed organiser ID for testing
+
+        // Aggregate event counts by status for this organiser
+        $totalEvents     = Event::where('user_id', $organiserId)->count();
+        $upcomingEvents  = Event::where('user_id', $organiserId)->where('status', 'upcoming')->count();
+        $ongoingEvents   = Event::where('user_id', $organiserId)->where('status', 'ongoing')->count();
+        $canceledEvents  = Event::where('user_id', $organiserId)->where('status', 'canceled')->count();
+        $unlistedEvents  = Event::where('user_id', $organiserId)->where('status', 'unlisted')->count();
+
+        // Fetch the latest 5 events for a quick overview
+        $latestEvents = Event::where('user_id', $organiserId)
+                             ->orderBy('created_at', 'desc')
+                             ->take(5)
+                             ->get();
+
+        return view('organiser.dashboard', compact(
+            'totalEvents', 
+            'upcomingEvents', 
+            'ongoingEvents', 
+            'canceledEvents', 
+            'unlistedEvents',
+            'latestEvents'
+        ));
+    }
 }

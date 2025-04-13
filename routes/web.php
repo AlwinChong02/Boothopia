@@ -79,3 +79,6 @@ Route::post('/organiser/event/{id}/reject', [EventController::class, 'reject'])
 
 Route::get('/organiser/event/{id}', [EventController::class, 'show'])
     ->name('organiser.event.show');
+
+Route::get('/organiser/dashboard', [EventController::class, 'dashboard'])
+    ->name('organiser.dashboard');
