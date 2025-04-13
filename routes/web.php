@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,17 +38,19 @@ Route::get('/about', function () {
 //     return view('search');
 // });
 
-Route::group(['prefix' => 'searchBar', 'as' => 'searchBar.'], function ()
-{
-    Route::get('/',
+Route::group(['prefix' => 'searchBar', 'as' => 'searchBar.'], function () {
+    Route::get(
+        '/',
         [SearchController::class, 'index']
     )->name('index');
 
-    Route::get('search',
+    Route::get(
+        'search',
         [SearchController::class, 'search']
     )->name('search');
 
-    Route::get('show',
+    Route::get(
+        'show',
         [SearchController::class, 'show']
     )->name('show');
 });
@@ -59,3 +62,8 @@ Route::get("/contact", [ContactController::class, 'showContactPage']);
 Route::post("/contact", [ContactController::class, 'contact']);
 Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contact.submit');
 
+Route::get('/organiser/event/create', [EventController::class, 'create'])
+    ->name('organiser.event.create');
+
+Route::post('/organiser/event', [EventController::class, 'store'])
+    ->name('organiser.event.store');
