@@ -67,3 +67,15 @@ Route::get('/organiser/event/create', [EventController::class, 'create'])
 
 Route::post('/organiser/event', [EventController::class, 'store'])
     ->name('organiser.event.store');
+
+Route::get('/organiser/event/approval', [EventController::class, 'approvalPage'])
+    ->name('organiser.event.approval');
+
+Route::post('/organiser/event/{id}/approve', [EventController::class, 'approve'])
+    ->name('organiser.event.approve');
+
+Route::post('/organiser/event/{id}/reject', [EventController::class, 'reject'])
+    ->name('organiser.event.reject');
+
+Route::get('/organiser/event/{id}', [EventController::class, 'show'])
+    ->name('organiser.event.show');

@@ -15,11 +15,10 @@ class EventController extends Controller
     // Process form submission and store the event.
     public function store(Request $request)
     {
-        // Validate incoming data.
         $validated = $request->validate([
             'name'            => 'required|string|max:255',
             'description'     => 'required|string',
-            'img'             => 'nullable|image|max:2048', // optional image upload (max 2MB)
+            'img'             => 'nullable|image|max:2048', //image upload (max 2MB)
             'start_date'      => 'required|date',
             'end_date'        => 'required|date|after_or_equal:start_date',
             'start_time'      => 'required',
@@ -29,7 +28,6 @@ class EventController extends Controller
             'booth_quantity'  => 'required|integer|min:1',
         ]);
 
-        // Handle image upload if it exists.
         if ($request->hasFile('img')) {
             $imagePath = $request->file('img')->store('events', 'public');
             $validated['img'] = $imagePath;
@@ -41,7 +39,6 @@ class EventController extends Controller
         // Create the event record.
         $event = Event::create($validated);
 
-        // Optionally auto-generate Booth records based on booth_quantity.
         for ($i = 1; $i <= $validated['booth_quantity']; $i++) {
             $event->booths()->create([
                 'name'  => "Booth {$i}",
@@ -52,5 +49,41 @@ class EventController extends Controller
 
         return redirect()->route('organiser.event.create')
             ->with('success', 'Event created successfully!');
+    }
+
+    public function approvalPage()
+    {
+        $events = Event::where('user_id', 1)
+                       ->where('status', 'unlisted')
+                       ->get();
+
+        return view('organiser.approval', compact('events'));
+    }
+
+    public function approve($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->status = 'upcoming';
+        $event->save();
+
+        return redirect()->route('organiser.event.approval')
+                         ->with('success', 'Event approved successfully!');
+    }
+
+    public function reject($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->status = 'canceled';
+        $event->save();
+
+        return redirect()->route('organiser.event.approval')
+                         ->with('success', 'Event rejected successfully!');
+    }
+
+    public function show($id)
+    {
+        $event = Event::with('booths')->findOrFail($id);
+
+        return view('organiser.event-profile', compact('event'));
     }
 }
