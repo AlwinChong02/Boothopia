@@ -12,4 +12,6 @@ class BoothController extends Controller
         $booths = Booth::all(); // Fetch all booths from the database
         return view('booths.index', compact('booths'));
     }
+
+    
 }

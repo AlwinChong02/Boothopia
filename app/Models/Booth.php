@@ -11,5 +11,15 @@ class Booth extends Model
 
     protected $fillable = ['name', 'description', 'location', 'img', 'price'];
 
+
+    public function index()
+    {
+        // Fetch all booths from the database
+        $booths = Booth::all();
+
+        // Pass the data to the view
+        return view('booths.index', compact('booths'));
+    }
+
     
 }
