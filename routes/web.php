@@ -59,3 +59,7 @@ Route::get("/contact", [ContactController::class, 'showContactPage']);
 Route::post("/contact", [ContactController::class, 'contact']);
 Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contact.submit');
 
+
+//Booths
+use App\Http\Controllers\BoothController;
+Route::get('/booths', [BoothController::class, 'index']); // Fetch all booths from the database
