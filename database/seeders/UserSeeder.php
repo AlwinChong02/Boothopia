@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
         ]);
 
         // Create organisers
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             DB::table('users')->insert([
                 'name' => $faker->name('male') . ' (Organiser)', // Indicate role in name for clarity
                 'email' => $faker->unique()->safeEmail,
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
         }
 
         // Create requesters (potential booth renters)
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             DB::table('users')->insert([
                 'name' => $faker->name . ' (Requester)',
                 'email' => $faker->unique()->safeEmail,
