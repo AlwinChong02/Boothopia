@@ -11,12 +11,14 @@
 {{-- display all booths available in database --}}
 @foreach ($booths as $booth)
     <x-boothCard 
+        :id="$booth->id"
         :name="$booth->name" 
         :description="$booth->description" 
         :location="$booth->location" 
         :img="$booth->img" 
         :price="$booth->price" 
     />
+
 @endforeach
 
 <div class="">
