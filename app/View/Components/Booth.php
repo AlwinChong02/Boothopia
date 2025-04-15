@@ -14,15 +14,16 @@ class Booth extends Component
 
     /**
      * Booth's component instance.
-     *
+     * @param int $id
      * @param string $name
      * @param string|null $description
      * @param string|null $location
      * @param string|null $img
      * @param float $price
      */
-    public function __construct($name, $description = null, $location = null, $img = null, $price)
+    public function __construct($id, $name, $description = null, $location = null, $img = null, $price)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->location = $location;
