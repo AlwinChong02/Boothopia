@@ -63,3 +63,8 @@ Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contac
 //Booths
 use App\Http\Controllers\BoothController;
 Route::get('/booths', [BoothController::class, 'index']); // Fetch all booths from the database
+Route::get('/booths/{id}', [BoothController::class, 'show'])->name('booths.boothbooking');
+Route::post('/booths', [BoothController::class, 'store']); // Create a new booth
+
+
+Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
