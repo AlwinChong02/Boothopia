@@ -13,7 +13,7 @@
     </div>
 
     {{-- approval section (upload one image for organiser approval --}}
-    <form method="POST" action="{{ route('/home') }}" enctype="multipart/form-data" class="mt-4">
+    <form method="POST" action="{{ route('payment.approval') }}" enctype="multipart/form-data" class="mt-4">
         @csrf
         <div class="mb-3">
             <label for="approval_image" class="form-label">Upload Approval Image</label>
