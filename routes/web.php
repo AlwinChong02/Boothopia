@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BoothController;
+use App\Http\Controllers\BoothBookingController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,10 +64,15 @@ Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contac
 
 
 //Booths
-use App\Http\Controllers\BoothController;
 Route::get('/booths', [BoothController::class, 'index']); // Fetch all booths from the database
 Route::get('/booths/{id}', [BoothController::class, 'show'])->name('booths.boothbooking');
 Route::post('/booths', [BoothController::class, 'store']); // Create a new booth
-
-
 Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
+
+//Events
+Route::get('/events', [EventController::class, 'index'])->name('events.index'); // Fetch all events from the database
+
+// Event booth booking routes
+Route::get('/events/{event}/booking', [BoothBookingController::class, 'showBooking'])->name('events.booking');
+Route::post('/events/{event}/booking', [BoothBookingController::class, 'processBooking'])->name('events.booking.process');
+Route::get('/booking/payment', [BoothBookingController::class, 'showPayment'])->name('booking.payment');
