@@ -17,13 +17,10 @@ class CreateBoothsTable extends Migration
             $table->id(); 
             $table->string('name');
             $table->text('description')->nullable(); 
-            $table->string('location')->nullable(); 
-            $table->string('img')->nullable(); 
             $table->decimal('price', 8, 2); // Price with 8 total digits and 2 decimal places
 
             // Foreign key for the event this booth belongs to
             $table->foreignId('event_id')->constrained('events');
-
 
             // Foreign key for the user who has booked/rented the booth (likely a requester)
             // Making it nullable allows booths to exist before being booked.
