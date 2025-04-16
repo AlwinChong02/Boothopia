@@ -8,8 +8,20 @@
 </header>
 
 <body>
-{{-- display all booths available in database --}}
+{{-- display all events available in database --}}
 @foreach ($booths as $booth)
+    {{-- <div class="event-card">
+        <h2>{{ $event->name }}</h2>
+        <p><strong>Date:</strong> {{ $event->start_date }} to {{ $event->end_date }}</p>
+        <p><strong>Location:</strong> {{ $event->location }}</p>
+        <p><strong>Description:</strong> {{ $event->description }}</p>
+        @if($event->img)
+            <img src="{{ $event->img }}" alt="{{ $event->name }}" class="event-image">
+        @endif
+        <a href="{{ route('events.booking', ['event' => $event->id]) }}" class="btn btn-primary">Book Now</a>
+    </div> --}}
+
+    
     <x-boothCard 
         :id="$booth->id"
         :name="$booth->name" 
@@ -17,15 +29,15 @@
         :location="$booth->location" 
         :img="$booth->img" 
         :price="$booth->price" 
+        :event_id="$booth->event_id"
     />
 
 @endforeach
-
-<div class="">
-HEllo world
-</div>
-
-
+    
+    {{-- if no booths available --}}
+    @if($booths->isEmpty())
+        <div class="alert alert-warning">No booths available for this event.</div>
+    @endif
 
 </body>
 
