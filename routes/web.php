@@ -73,9 +73,6 @@ Route::post("/contact", [ContactController::class, 'contact']);
 Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contact.submit');
 
 
-//Booths
-Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
-
 //Events
 Route::get('/events', [EventController::class, 'index'])->name('events.index'); // List all events
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create'); // Show create form
