@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BoothController;
 use App\Http\Controllers\BoothBookingController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PaymentController;
 
 
 /*
@@ -86,6 +87,9 @@ Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events
 Route::get('/events/{event}/booking', [BoothBookingController::class, 'showBooking'])->name('events.booking');
 Route::post('/events/{event}/booking', [BoothBookingController::class, 'processBooking'])->name('events.booking.process');
 Route::get('/booking/payment', [BoothBookingController::class, 'showPayment'])->name('booking.payment');
+
+// Payment approval image upload
+Route::post('/payment/approval', [PaymentController::class, 'uploadApproval'])->name('payment.approval');
 
 //login part
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->withoutMiddleware('auth');
