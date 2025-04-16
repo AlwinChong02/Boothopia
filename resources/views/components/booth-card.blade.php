@@ -12,11 +12,7 @@
 
     <div class="flex items-center justify-between">
         <div>
-            <span class="text-gray-500 line-through">${{ number_format($price, 2) }}</span>
+            <span class="text-gray-500">${{ number_format($price, 2) }}</span>
         </div>
-        <a class="bg-blue-500 text-white px-4 py-2 rounded" href="{{ route('booths.boothbooking', ['id' => $id]) }}">
-            Book Now
-        </a>
-        {{-- <x-available-btn :label="'Check Availability'" :url="" /> --}}
     </div>
 </div>

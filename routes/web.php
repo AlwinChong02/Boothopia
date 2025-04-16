@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ContactController;
-
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -11,6 +10,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrganiserController;
 use App\Http\Controllers\RequesterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BoothController;
+use App\Http\Controllers\BoothBookingController;
+use App\Http\Controllers\EventController;
 
 
 /*
@@ -72,14 +74,21 @@ Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contac
 
 
 //Booths
-use App\Http\Controllers\BoothController;
-Route::get('/booths', [BoothController::class, 'index']); // Fetch all booths from the database
-Route::get('/booths/{id}', [BoothController::class, 'show'])->name('booths.boothbooking');
-Route::post('/booths', [BoothController::class, 'store']); // Create a new booth
-
-
 Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
 
+//Events
+Route::get('/events', [EventController::class, 'index'])->name('events.index'); // List all events
+Route::get('/events/create', [EventController::class, 'create'])->name('events.create'); // Show create form
+Route::post('/events', [EventController::class, 'store'])->name('events.store'); // Store new event
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show'); // Show single event
+Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit'); // Show edit form
+Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update'); // Update event
+Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy'); // Delete event
+
+// Event booth booking routes
+Route::get('/events/{event}/booking', [BoothBookingController::class, 'showBooking'])->name('events.booking');
+Route::post('/events/{event}/booking', [BoothBookingController::class, 'processBooking'])->name('events.booking.process');
+Route::get('/booking/payment', [BoothBookingController::class, 'showPayment'])->name('booking.payment');
 
 //login part
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->withoutMiddleware('auth');
@@ -107,5 +116,4 @@ Route::middleware(['auth', 'role:organiser'])->group(function () {
 Route::middleware(['auth', 'role:requester'])->group(function () {
     Route::get('/requester/dashboard', [RequesterController::class, 'index'])->name('requester.dashboard');
 });
-
 
