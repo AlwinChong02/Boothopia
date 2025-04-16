@@ -12,6 +12,7 @@
         <p><strong>End:</strong> {{ $event->end_date }} {{ $event->end_time }}</p>
         <hr>
         <h4>Booths</h4>
+
         @if($event->booths->isEmpty())
             <div class="alert alert-warning">No booths available for this event.</div>
         @else
@@ -28,12 +29,12 @@
                             :event_id="$booth->event_id"
                             :user_id="$booth->user_id" 
                             />
-                        @if($booth->user_id)
+                            
+                        {{-- @if($booth->user_id)
                             <span class="badge bg-danger">Booked</span>
                         @else
                             <span class="badge bg-green">Available</span>
-
-                        @endif
+                        @endif --}}
                     </div>
                 @endforeach
 

@@ -11,6 +11,12 @@
 @endif
 
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-success mt-3">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <button onclick="scrollToTop()">Back to Top</button>
     <video class="search-video" autoplay loop muted width="1600" height="1500">
         <source src="/video/roadshow.mp4" type="video/mp4">

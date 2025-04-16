@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Booth;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BoothBookingController extends Controller
 {
@@ -47,15 +50,74 @@ class BoothBookingController extends Controller
     }
 
     // Show payment page
-    public function showPayment()
+    public function showPayment(Request $request)
     {
-        $eventId = Session::get('booking.event_id');
-        $boothIds = Session::get('booking.booth_ids', []);
+        $eventId = session('booking.event_id');
+        $boothIds = session('booking.booth_ids', []);
         if (!$eventId || empty($boothIds)) {
             return redirect('/')->withErrors('No booking in progress.');
         }
         $event = Event::find($eventId);
         $booths = Booth::whereIn('id', $boothIds)->get();
-        return view('payment', compact('event', 'booths'));
+        $total = $booths->sum('price');
+        return view('payment', compact('event', 'booths', 'total'));
+    }
+
+    // Process payment and save booking
+    public function processPayment(Request $request)
+    {
+        $request->validate([
+            'payment_method' => 'required|in:online_banking,card',
+            'card_number' => 'required_if:payment_method,card',
+            'card_expiry' => 'required_if:payment_method,card',
+            'card_cvc' => 'required_if:payment_method,card',
+            'bank_name' => 'required_if:payment_method,online_banking',
+            'bank_account' => 'required_if:payment_method,online_banking',
+        ]);
+        $eventId = session('booking.event_id');
+        $boothIds = session('booking.booth_ids', []);
+        
+        $user = Auth::user();
+        if (!$eventId || empty($boothIds) || !$user) {
+            return redirect('/')->withErrors('Invalid booking session.');
+        }
+        $booths = Booth::whereIn('id', $boothIds)->whereNull('user_id')->lockForUpdate()->get();
+        if (count($booths) !== count($boothIds)) {
+            return redirect('/')->withErrors('One or more booths are no longer available.');
+        }
+        DB::beginTransaction();
+        try {
+            // Mark booths as booked
+            foreach ($booths as $booth) {
+                $booth->user_id = $user->id;
+                $booth->save();
+            }
+            // Save payment
+            $details = $request->payment_method === 'card'
+                ? json_encode([
+                    'card_number' => $request->card_number,
+                    'card_expiry' => $request->card_expiry,
+                    'card_cvc' => $request->card_cvc
+                ])
+                : json_encode([
+                    'bank_name' => $request->bank_name,
+                    'bank_account' => $request->bank_account
+                ]);
+            $payment = Payment::create([
+                'user_id' => $user->id,
+                'event_id' => $eventId,
+                'booth_ids' => implode(',', $boothIds),
+                'method' => $request->payment_method,
+                'details' => $details,
+                'amount' => $booths->sum('price'),
+                'status' => 'success',
+            ]);
+            DB::commit();
+            session()->forget(['booking.event_id', 'booking.booth_ids']);
+            return redirect('/home')->with('success', 'Payment successful! Booth(s) booked.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect('/')->withErrors('Payment failed: ' . $e->getMessage());
+        }
     }
 }
