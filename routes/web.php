@@ -74,12 +74,16 @@ Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contac
 
 
 //Booths
-Route::get('/booths', [BoothController::class, 'index']); // Fetch all booths from the database
-Route::get('/booths/{id}', [BoothController::class, 'show'])->name('booths.boothbooking');
-Route::post('/booths', [BoothController::class, 'store']); // Create a new booth
 Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
+
 //Events
-Route::get('/events', [EventController::class, 'index'])->name('events.index'); // Fetch all events from the database
+Route::get('/events', [EventController::class, 'index'])->name('events.index'); // List all events
+Route::get('/events/create', [EventController::class, 'create'])->name('events.create'); // Show create form
+Route::post('/events', [EventController::class, 'store'])->name('events.store'); // Store new event
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show'); // Show single event
+Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit'); // Show edit form
+Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update'); // Update event
+Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy'); // Delete event
 
 // Event booth booking routes
 Route::get('/events/{event}/booking', [BoothBookingController::class, 'showBooking'])->name('events.booking');
