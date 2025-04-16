@@ -35,16 +35,5 @@
         <!-- Footer -->
         @include('footer')
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script>
-        @if(session('success'))
-            toastr.success("{{ session('success') }}");
-        @endif
-
-        @if(session('error'))
-            toastr.error("{{ session('error') }}");
-        @endif
-    </script>
 </body>
 </html>

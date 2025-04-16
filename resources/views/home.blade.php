@@ -2,6 +2,14 @@
 
 @section('title', 'Home Page') 
 
+@if(session('success'))
+    <x-notification type="success" :message="session('success')" />
+@endif
+
+@if(session('error'))
+    <x-notification type="error" :message="session('error')" />
+@endif
+
 @section('content')
     <button onclick="scrollToTop()">Back to Top</button>
     <video class="search-video" autoplay loop muted width="1600" height="1500">

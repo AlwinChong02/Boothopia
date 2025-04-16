@@ -9,12 +9,12 @@ class RequesterController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'role:organiser']);
+        $this->middleware(['auth', 'role:requester']);
     }
 
     public function index()
     {
         $user = Auth::user();
-        return view('organiser.dashboard', compact('user'));
+        return view('requester.dashboard', compact('user'));
     }
 }

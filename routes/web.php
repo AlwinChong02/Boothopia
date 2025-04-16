@@ -93,27 +93,27 @@ Route::get('/booking/payment', [BoothBookingController::class, 'showPayment'])->
 //login part
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->withoutMiddleware('auth');
 
-Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/profile', [UserController::class, 'show'])->name('profile');
+Route::get('/user/update/{id}', [UserController::class, 'showUpdateUserForm'])->name('user.updateForm');
+Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
 
 // Admin Dashboard Route
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/user/userList', [UserController::class, 'index'])->name('userList');
-    Route::get('/user/update/{id}', [UserController::class, 'showUpdateUserForm'])->name('user.updateForm');
-    Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
     Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
-
 });
 
 // Organiser Dashboard Route
 Route::middleware(['auth', 'role:organiser'])->group(function () {
-    Route::get('/organiser/dashboard', [RequesterController::class, 'index'])->name('organiser.dashboard');
+    Route::get('/organiser/dashboard', [OrganiserController::class, 'index'])->name('organiser.dashboard');
 });
 
 // Requester Dashboard Route
 Route::middleware(['auth', 'role:requester'])->group(function () {
-    Route::get('/requester/dashboard', [OrganiserController::class, 'index'])->name('requester.dashboard');
+    Route::get('/requester/dashboard', [RequesterController::class, 'index'])->name('requester.dashboard');
 });
+
