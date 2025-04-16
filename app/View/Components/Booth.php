@@ -11,6 +11,7 @@ class Booth extends Component
     public $location;
     public $img;
     public $price;
+    public $eventId;
 
     /**
      * Booth's component instance.
@@ -20,8 +21,9 @@ class Booth extends Component
      * @param string|null $location
      * @param string|null $img
      * @param float $price
+     * @param int|null $eventId
      */
-    public function __construct($id, $name, $description = null, $location = null, $img = null, $price)
+    public function __construct($id, $name, $description = null, $location = null, $img = null, $price, $eventId = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -29,6 +31,7 @@ class Booth extends Component
         $this->location = $location;
         $this->img = $img;
         $this->price = $price;
+        $this->eventId = $eventId;
     }
 
     /**
