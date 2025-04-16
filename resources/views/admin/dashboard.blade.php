@@ -20,7 +20,7 @@
                     <a class="d-flex flex-column text-decoration-none dropdown-toggle" href="#" role="button" id="userDropdown"
                     data-bs-toggle="dropdown" aria-expanded="false">
                         <strong>{{ Auth::user()->name }}</strong>
-                        <small class="text-muted text-uppercase" style="font-size: 0.65rem; font-weight: 600">{{ Auth::user()->role }}</small>
+                        <small class="text-muted text-uppercase" style="font-size: 0.65rem; font-weight: 650">{{ Auth::user()->role }}</small>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
