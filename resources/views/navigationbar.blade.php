@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('requester.dashboard') }}">Requester Dashboard</a>
                         </li>
+                        <li>
+                            <a class="nav-link" href="{{ route('events.index') }}">Booth</a>
+                        </li>
                     @endcan
                     
                     <!-- User's Name and Logout Dropdown -->
