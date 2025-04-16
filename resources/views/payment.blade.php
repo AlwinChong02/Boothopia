@@ -1,46 +1,42 @@
-
+@extends('layouts.app')
+@section('content')
 <div class="container mt-5">
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <h2>Payment for: {{ $event->name }}</h2>
-        </div>
-        <div class="card-body">
-            <p><strong>Date:</strong> {{ $event->start_date }} to {{ $event->end_date }}</p>
-            <p><strong>Location:</strong> {{ $event->location }}</p>
-            <p><strong>Description:</strong> {{ $event->description }}</p>
-        </div>
+    <h2>Payment for Event: {{ $event->name }}</h2>
+    <div class="mb-3">
+        <strong>Booths:</strong>
+        <ul>
+            @foreach($booths as $booth)
+                <li>{{ $booth->name }} - ${{ number_format($booth->price, 2) }}</li>
+            @endforeach
+        </ul>
+        <strong>Total: ${{ number_format($total, 2) }}</strong>
     </div>
-    <div class="card mb-4">
-        <div class="card-header bg-secondary text-white">
-            <h4>Selected Booth(s)</h4>
+
+    {{-- approval section (upload one image for organiser approval --}}
+    <form method="POST" action="{{ route('payment.approval') }}" enctype="multipart/form-data" class="mt-4">
+        @csrf
+        <div class="mb-3">
+            <label for="approval_image" class="form-label">Upload Approval Image</label>
+            <input type="file" class="form-control" name="approval_image" id="approval_image" accept="image/*" required>
         </div>
-        <div class="card-body">
-            @if($booths->isEmpty())
-                <div class="alert alert-warning">No booths selected.</div>
-            @else
-                <ul class="list-group">
-                    @foreach($booths as $booth)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ $booth->name }}</strong> <br>
-                                <span>{{ $booth->location }}</span>
-                            </div>
-                            <span class="badge bg-success">${{ number_format($booth->price, 2) }}</span>
-                        </li>
-                    @endforeach
-                </ul>
-                <div class="mt-3 text-end">
-                    <h5>Total: ${{ number_format($booths->sum('price'), 2) }}</h5>
-                </div>
-            @endif
+        <button type="submit" class="btn btn-primary">Upload Approval Image</button>
+    </form>
+    @if($errors->any())
+        <div class="alert alert-danger mt-3">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-    </div>
-    {{-- Payment form or button can be added here --}}
-    <div class="text-end">
-        <a href="/" class="btn btn-secondary">Cancel</a>
-        <button class="btn btn-primary" disabled>Proceed to Payment (Demo)</button>
-    </div>
+    @endif
 </div>
-    
-    
-    
+{{-- <script>
+    document.getElementById('payment_method').addEventListener('change', function() {
+        document.getElementById('online_banking_fields').style.display = this.value === 'online_banking' ? 'block' : 'none';
+        document.getElementById('card_fields').style.display = this.value === 'card' ? 'block' : 'none';
+    });
+</script> --}}
+@endsection
+
+

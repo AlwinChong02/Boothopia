@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BoothController;
 use App\Http\Controllers\BoothBookingController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PaymentController;
 
 
 /*
@@ -73,9 +74,6 @@ Route::post("/contact", [ContactController::class, 'contact']);
 Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contact.submit');
 
 
-//Booths
-Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
-
 //Events
 Route::get('/events', [EventController::class, 'index'])->name('events.index'); // List all events
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create'); // Show create form
@@ -89,6 +87,9 @@ Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events
 Route::get('/events/{event}/booking', [BoothBookingController::class, 'showBooking'])->name('events.booking');
 Route::post('/events/{event}/booking', [BoothBookingController::class, 'processBooking'])->name('events.booking.process');
 Route::get('/booking/payment', [BoothBookingController::class, 'showPayment'])->name('booking.payment');
+
+// Payment approval image upload
+Route::post('/payment/approval', [PaymentController::class, 'uploadApproval'])->name('payment.approval');
 
 //login part
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->withoutMiddleware('auth');
