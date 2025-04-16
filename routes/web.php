@@ -4,6 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ContactController;
 
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrganiserController;
+use App\Http\Controllers\RequesterController;
+use App\Http\Controllers\UserController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,12 +24,14 @@ use App\Http\Controllers\ContactController;
 |
 */
 
+Auth::routes(); 
+
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+// Route::get('/home', function () {
+//     return view('home');
+// })->name('home');
 Route::get('/navigationbar', function () {
     return view('navigationbar');
 });
@@ -68,3 +79,34 @@ Route::post('/booths', [BoothController::class, 'store']); // Create a new booth
 
 
 Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
+
+
+//login part
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->withoutMiddleware('auth');
+
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+
+// Admin Dashboard Route
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/user/userList', [UserController::class, 'index'])->name('userList');
+    Route::get('/user/update/{id}', [UserController::class, 'showUpdateUserForm'])->name('user.updateForm');
+    Route::post('/user/update', [UserController::class, 'update'])->name('user.update');
+    Route::get('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+
+});
+
+// Organiser Dashboard Route
+Route::middleware(['auth', 'role:organiser'])->group(function () {
+    Route::get('/organiser/dashboard', [RequesterController::class, 'index'])->name('organiser.dashboard');
+});
+
+// Requester Dashboard Route
+Route::middleware(['auth', 'role:requester'])->group(function () {
+    Route::get('/requester/dashboard', [OrganiserController::class, 'index'])->name('requester.dashboard');
+});
+
+
