@@ -1,46 +1,68 @@
-
+@extends('layouts.app')
+@section('content')
 <div class="container mt-5">
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <h2>Payment for: {{ $event->name }}</h2>
-        </div>
-        <div class="card-body">
-            <p><strong>Date:</strong> {{ $event->start_date }} to {{ $event->end_date }}</p>
-            <p><strong>Location:</strong> {{ $event->location }}</p>
-            <p><strong>Description:</strong> {{ $event->description }}</p>
-        </div>
+    <h2>Payment for Event: {{ $event->name }}</h2>
+    <div class="mb-3">
+        <strong>Booths:</strong>
+        <ul>
+            @foreach($booths as $booth)
+                <li>{{ $booth->name }} - ${{ number_format($booth->price, 2) }}</li>
+            @endforeach
+        </ul>
+        <strong>Total: ${{ number_format($total, 2) }}</strong>
     </div>
-    <div class="card mb-4">
-        <div class="card-header bg-secondary text-white">
-            <h4>Selected Booth(s)</h4>
+    <form method="POST" action="{{ route('booking.payment') }}" id="paymentForm">
+        @csrf
+        <div class="mb-3">
+            <label for="payment_method" class="form-label">Select Payment Method</label>
+            <select class="form-select" id="payment_method" name="payment_method" required>
+                <option value="">Choose...</option>
+                <option value="online_banking">Online Banking</option>
+                <option value="card">Card</option>
+            </select>
         </div>
-        <div class="card-body">
-            @if($booths->isEmpty())
-                <div class="alert alert-warning">No booths selected.</div>
-            @else
-                <ul class="list-group">
-                    @foreach($booths as $booth)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ $booth->name }}</strong> <br>
-                                <span>{{ $booth->location }}</span>
-                            </div>
-                            <span class="badge bg-success">${{ number_format($booth->price, 2) }}</span>
-                        </li>
-                    @endforeach
-                </ul>
-                <div class="mt-3 text-end">
-                    <h5>Total: ${{ number_format($booths->sum('price'), 2) }}</h5>
-                </div>
-            @endif
+        <div id="online_banking_fields" style="display:none;">
+            <div class="mb-3">
+                <label for="bank_name" class="form-label">Bank Name</label>
+                <input type="text" class="form-control" name="bank_name" id="bank_name">
+            </div>
+            <div class="mb-3">
+                <label for="bank_account" class="form-label">Bank Account Number</label>
+                <input type="text" class="form-control" name="bank_account" id="bank_account">
+            </div>
         </div>
-    </div>
-    {{-- Payment form or button can be added here --}}
-    <div class="text-end">
-        <a href="/" class="btn btn-secondary">Cancel</a>
-        <button class="btn btn-primary" disabled>Proceed to Payment (Demo)</button>
-    </div>
+        <div id="card_fields" style="display:none;">
+            <div class="mb-3">
+                <label for="card_number" class="form-label">Card Number</label>
+                <input type="text" class="form-control" name="card_number" id="card_number">
+            </div>
+            <div class="mb-3">
+                <label for="card_expiry" class="form-label">Expiry Date</label>
+                <input type="text" class="form-control" name="card_expiry" id="card_expiry" placeholder="MM/YY">
+            </div>
+            <div class="mb-3">
+                <label for="card_cvc" class="form-label">CVC</label>
+                <input type="text" class="form-control" name="card_cvc" id="card_cvc">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Pay & Book</button>
+    </form>
+    @if($errors->any())
+        <div class="alert alert-danger mt-3">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </div>
-    
-    
-    
+<script>
+    document.getElementById('payment_method').addEventListener('change', function() {
+        document.getElementById('online_banking_fields').style.display = this.value === 'online_banking' ? 'block' : 'none';
+        document.getElementById('card_fields').style.display = this.value === 'card' ? 'block' : 'none';
+    });
+</script>
+@endsection
+
+
