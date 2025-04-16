@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@100..900&display=swap');
+
+
+
+.home-menu {
+    font-size: 20px;
+}
+
+.menu-toggle-right li{
+    list-style-type: none;
+    display: inline;
+    margin-right: 10px;
+}
+
+.side-nav{
+    background-color: #57B9FF;
+    padding: 20px;
+    font-family: "Overpass", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.side-nav a{
+    text-decoration: none;
+    color: black;
+}
+
+.side-nav a:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.custom-navbar {
+    background-color: rgb(236, 249, 255);
+    position: relative;
+    z-index: 1000; /* Add this line to ensure navbar is on top */
+}
+
+.navbar-nav .dropdown-menu {
+    position: absolute !important;
+    z-index: 1001; /* Bootstrap dropdown default z-index */
+}
+
+.navbar-nav .nav-item {
+    margin-right: 20px; 
+}
+
+nav.navbar .navbar-nav .nav-link {
+    font-size: 18px;
+    color: #333 !important;
+    /* margin-right: 20px; */
+    text-decoration: none;
+    font-family: "Overpass", sans-serif;
+    font-weight: 600;
+}
+
+nav.navbar .navbar-nav .nav-link:hover {
+    color: rgb(27, 114, 171) !important;
+}
+/* .top-nav{
+    z-index: 1000;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(236, 249, 255);
+}
+
+.top-nav a{
+    margin-left: 20px;
+}
+
+.top-menu a{
+    color: black;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+    font-family: "Overpass", sans-serif;
+    font-weight: 450;
+}
+
+.top-left{
+    position: absolute;
+    top: 20px;
+    left: 250px;
+    padding: 12px 35px;
+    background-color: transparent;
+    border: none;
+}
+
+.top-right{
+    position: absolute;
+    top: 30px;
+    right: 150px;
+    background-color: transparent;
+    border: none;
+}
+
+.sign-btn{
+    padding: 12px 35px;
+} */
+
+
+/* .search-bar{
+    transform: translateY(20px);
+    opacity: 0;
+    transition: 1s ease;
+}
+
+.search--visible{
+    transform: translateY(0);
+    opacity: 1;
+} */
+
+
+
+.search-video{
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+.search-bar{
+    position: absolute;
+    top: 780px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+}
+
+.footer-container{
+    position: relative;
+    top: 3000px;
+    font-size: 1.0rem;
+    padding: 70px 0;
+    background-color: rgb(255, 255, 255);
+}
+
+.footer-container li{
+    list-style-type: none;
+}
+
+.footer-container a{
+    text-decoration: none;
+    color: black;
+}
+
+.footer-container h3{
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.footer-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-section-about{
+    position: relative;
+    width: 30%;
+    left: 80px;
+    text-align: justify;
+}
+
+.footer-section-links{
+    position: relative;
+    width: 30%;
+    left: 150px;
+}
+.footer-section-contact{
+    position: relative;
+    width: 30%;
+    top: -15px;
+}
+
+.contact-footer{
+    position: absolute;
+    top: -2200px;
+    left: 0px;
+    width: 100%;
+}
+
+.text-gray-dark{
+    margin-top: 10%;
+    --tw-text-opacity: 1;
+    color: rgb(154 154 157 / var(--tw-text-opacity)); 
+}
+
+.border-gray-lightest{
+    --tw-border-opacity: 1;
+    border-color: rgb(222 222 222 / var(--tw-border-opacity));
+}
+
+.border-t {
+    border-top-width: 1px;
+}
+
+.contact-container h1{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: absolute;
+    top: 280px;
+    left: 250px;
+}
+
+.contact-container p{
+    position: absolute;
+    top: 400px;
+    left: 250px;
+}
+
+.col-container{
+    width: 530px;
+    height: 500px;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(150, 151, 151);
+    border-radius: 10%;
+    position: absolute;
+    top: 160px;
+    left: 900px;
+    box-shadow: 10px 10px 10px 10px rgb(83, 83, 83);
+}
+
+.col-container input{
+    position: relative;
+    left: 70px;
+    top: 20px;
+    border-radius: 3%;
+    border-color: rgb(223, 221, 221);
+}
+
+.col-container h5{
+    position: relative;
+    left: 70px;
+    top: 20px;
+}
+
+.col-container textarea{
+    position: relative;
+    left: 70px;
+    top: 20px;
+    border-radius: 3%;
+    border-color: rgb(161, 161, 161);
+}
+
+
+#subject{
+    width: 400px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.btn-contact{
+    background-color: rgb(27, 114, 171);
+    border-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    position: relative;
+    height: 40px;
+    top: 35px;
+    left: -334px;
+    padding: 3px 25px;
+    border-radius: 8%;
+}
+
+.btn-contact:hover{
+    background-color: rgb(43, 62, 157);
+}
+
+.about-container{
+    position: relative;
+    top: 200px;
+    left: 85px;
+    width: 90%;
+}
+
+.toggle-faq {
+    width: 100%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    color: #111130;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    padding: 5px 0;
+}
+
+.content-faq {
+    position: relative;
+    font-size: 14px;
+    text-align: justify;
+    line-height: 30px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 1s;
+}
+
+.wrapper {
+    position: relative;
+    top: 300px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+#sub-contact{
+    position: absolute;
+    top: 435px;
+    left: 190px;
+    font-size: 15px;
+    width: 45%;
+}
+
+.name-err{
+    position: absolute;
+    top: 45px;
+    left: 270px;
+    color: red;
+}
+
+.email-err{
+    position: absolute;
+    top: 130px;
+    left: 270px;
+    color: red;
+}
+.feedback-err{
+    position: absolute;
+    top: 190px;
+    left: 290px;
+    color: red;
+}
+
+/* .toast-body {
+    text-align: center;
+    width: 100%;
+} */
