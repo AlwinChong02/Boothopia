@@ -70,6 +70,17 @@ Route::get("/contact", [ContactController::class, 'showContactPage']);
 Route::post("/contact", [ContactController::class, 'contact']);
 Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contact.submit');
 
+
+//Booths
+use App\Http\Controllers\BoothController;
+Route::get('/booths', [BoothController::class, 'index']); // Fetch all booths from the database
+Route::get('/booths/{id}', [BoothController::class, 'show'])->name('booths.boothbooking');
+Route::post('/booths', [BoothController::class, 'store']); // Create a new booth
+
+
+Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
+
+
 //login part
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->withoutMiddleware('auth');
 
@@ -97,3 +108,5 @@ Route::middleware(['auth', 'role:organiser'])->group(function () {
 Route::middleware(['auth', 'role:requester'])->group(function () {
     Route::get('/requester/dashboard', [OrganiserController::class, 'index'])->name('requester.dashboard');
 });
+
+
