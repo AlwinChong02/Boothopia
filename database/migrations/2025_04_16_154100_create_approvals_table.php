@@ -18,9 +18,7 @@ class CreateApprovalsTable extends Migration
             $table->integer('organiser_id');
             $table->integer('requester_id');
             $table->enum('status',['pending', 'approved', 'rejected']);
-            $table->string('approval_image')->nullable();
             $table->timestamps();
-
         });
     }
 
