@@ -9,17 +9,16 @@ use Illuminate\Support\Facades\Session;
 
 class BoothBookingController extends Controller
 {
-    // Show event and available booths for booking
+    // Show event and all booths for booking (available and unavailable)
     public function showBooking($eventId)
     {
         $event = Event::find($eventId);
         if (!$event) {
             abort(404, 'Event not found');
         }
-        $booths = Booth::where('event_id', $eventId)
-            ->whereNull('user_id') // Only available booths
-            ->get();
-        return view('booths.booking', compact('event', 'booths'));
+        // Fetch all booths for the event, not just available ones
+        $booths = Booth::where('event_id', $eventId)->get();
+        return view('events.booking', compact('event', 'booths'));
     }
 
     // Handle booth selection and redirect to payment

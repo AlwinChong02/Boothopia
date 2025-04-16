@@ -6,17 +6,17 @@ use Illuminate\View\Component;
 
 class eventCard extends Component
 {
+    public $event;
+
     /**
      * Create a new component instance.
      *
-     * @param \App\Models\Event $event
      * @return void
      */
-    public function __construct(Event $event)
+    public function __construct($event)
     {
         $this->event = $event;
     }
-
 
     /**
      * Get the view / contents that represent the component.

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 
+
 class EventController extends Controller
 {
     public function index()
@@ -15,7 +16,11 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::findOrFail($id);
+        try {
+            $event = Event::with('booths')->findOrFail($id);
+        } catch (\Exception $e) {
+            return redirect()->route('events.index')->with('error', 'Event not found.');
+        }
         return view('events.show', compact('event'));
     }
 

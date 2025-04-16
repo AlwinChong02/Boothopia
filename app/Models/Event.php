@@ -15,6 +15,8 @@ class Event extends Model
         return view('events.index', compact('events'));
     }
 
-
-    // // Create a new event (Create)
+    public function booths()
+    {
+        return $this->hasMany(Booth::class);
+    }
 }
