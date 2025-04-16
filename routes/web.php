@@ -10,6 +10,11 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrganiserController;
 use App\Http\Controllers\RequesterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BoothController;
+use App\Http\Controllers\BoothBookingController;
+use App\Http\Controllers\EventController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
