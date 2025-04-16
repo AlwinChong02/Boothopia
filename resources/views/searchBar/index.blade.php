@@ -1,4 +1,4 @@
-<x-layouts.master title="Boothopia">
+
     <div class="container">
         <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
             <div class="search w-50">
@@ -55,5 +55,3 @@
         });
     </script>
 </x-slot>
-
-</x-layouts.master>
