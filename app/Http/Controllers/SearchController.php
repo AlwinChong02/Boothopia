@@ -20,7 +20,7 @@ class SearchController extends BaseController
 
     public function search(Request $request)
     {
-        $results = SearchModel::where('title', 'LIKE', "%{$request->search}%")->get();
+        $results = SearchModel::where('name', 'LIKE', "%{$request->search}%")->get();
         return view('searchBar.results', compact('results'))->with('search', $request->search);
     }
 

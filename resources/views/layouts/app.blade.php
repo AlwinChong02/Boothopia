@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <title>@yield('title', 'Default Title')</title>
 
     <!-- Bootstrap CSS -->
@@ -11,7 +11,7 @@
 
     <!-- Global Styles -->
     <!-- Css for login/register -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/myWeb.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
@@ -35,8 +35,9 @@
         <!-- Footer -->
         @include('footer')
     </div>
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         @if(session('success'))
             toastr.success("{{ session('success') }}");
@@ -46,5 +47,6 @@
             toastr.error("{{ session('error') }}");
         @endif
     </script>
+    @stack('scripts')
 </body>
 </html>

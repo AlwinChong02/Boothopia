@@ -1,6 +1,6 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
-@section('title', 'Home Page') 
+@section('title', 'Home Page')
 
 @section('content')
     <button onclick="scrollToTop()">Back to Top</button>
@@ -12,7 +12,7 @@
             <div class="search-background">
                 <img src="/img/searchBackground.png" alt="Booking" class="search-background" width="1521" height="750">
             </div>
-            @include('searchBar.index') 
+            @include('searchBar.partials.search')
         </div>
     </section>
 @endsection
