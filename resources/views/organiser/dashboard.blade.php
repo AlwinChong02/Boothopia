@@ -1,59 +1,77 @@
-@extends('layouts.app')
+@extends('layouts.dash')
+@include('navigationbar')
 
-@section('title', 'Organiser Dashboard')
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Organiser Dashboard</h2>
+            <p>Overview of your events</p>
+        </div>
 
-@section('content')
-<div class="d-flex flex-column">
-
-    {{-- Body Content --}}
-    <div class="d-flex">
-        {{-- Sidebar --}}
-        @include('layouts.sidenav')
-
-        {{-- Main Dashboard --}}
-        <div class="flex-grow-1 p-4">
-
-            {{-- Top navbar inside content --}}
-            <div class="d-flex justify-content-between align-items-center shadow-sm p-3 mb-4 bg-white rounded">
-                <h4 class="mb-0">Organiser Dashboard</h4>
-                <div class="dropdown">
-                    <a class="d-flex flex-column text-decoration-none dropdown-toggle" href="#" role="button" id="userDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>{{ Auth::user()->name }}</strong>
-                        <small class="text-muted text-uppercase" style="font-size: 0.65rem; font-weight: 650">{{ Auth::user()->role }}</small>
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{{ route('profile') }}">
-                                View Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                    </ul>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h4>Total Events</h4>
+                    <p>{{ $totalEvents }}</p>
                 </div>
             </div>
-
-            {{-- Main Content Area --}}
-            <div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p>Here you can manage users, events, and other administrative tasks.</p>
-                        </div>
-                    </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h4>Upcoming</h4>
+                    <p>{{ $upcomingEvents }}</p>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h4>Ongoing</h4>
+                    <p>{{ $ongoingEvents }}</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h4>Canceled</h4>
+                    <p>{{ $canceledEvents }}</p>
+                </div>
+            </div>
+        </div>
 
+        <div class="row g-3 mt-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h4>Pending Approval</h4>
+                    <p>
+                        <a href="{{ route('organiser.approval') }}"
+                            class="stretched-link text-decoration-none text-dark">
+                            {{ $unlistedEvents }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="latest-events">
+            <h3>Latest Events</h3>
+            @if($latestEvents->isEmpty())
+            <p>No recent events found.</p>
+            @else
+            @foreach ($latestEvents as $event)
+            <div class="event-item">
+                <h5>{{ $event->name }}</h5>
+                <p>
+                    <strong>Status:</strong> {{ ucfirst($event->status) }}<br>
+                    <strong>Date:</strong> {{ $event->start_date }} to {{ $event->end_date }}
+                </p>
+                <a href="{{ route('events.booking', $event->id) }}" class="btn btn-sm btn-primary">View Details</a>
+            </div>
+            @endforeach
+            @endif
         </div>
     </div>
-</div>
-@endsection
+
+    <div class="footer">
+        @include('footer')
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZl2nKp1spnkV01xJ8pR3tv9eVwA5PizL8WvC3Kpg5S6sOlNq9jk5kN" crossorigin="anonymous"></script>
+</body>

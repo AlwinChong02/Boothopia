@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Event;
-
+use App\Models\Approval;
 
 class EventController extends Controller
 {
@@ -45,6 +45,13 @@ class EventController extends Controller
             'booth_quantity'  => 'required|integer|min:1',
         ]);
 
+        $validatedData['user_id'] = Auth::id();
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('event-images', 'public');
+            $validatedData['img'] = $path;
+        }
+
         Event::create($validatedData);
 
         return redirect()->route('events.index')->with('success', 'Event created successfully!');
@@ -53,5 +60,19 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         return view('events.edit', compact('event'));
+    }
+
+    public function dashboard()
+    {
+        $organiserId = Auth::id();
+
+        $approvals = Approval::with(['event', 'requester'])
+            ->where('status', 'pending')
+            ->whereHas('event', function($q) use ($organiserId) {
+                $q->where('user_id', $organiserId);
+            })
+            ->get();
+
+        return view('organiser.dashboard', compact('approvals'));
     }
 }

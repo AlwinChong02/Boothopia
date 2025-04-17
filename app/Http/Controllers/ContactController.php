@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -32,7 +32,7 @@ class ContactController extends BaseController
     function addFeedback(Request $request){
         $session = session();
         $ContactModel = new ContactModel();
-        $user_id = $request->input('get_user_id');
+        $user_id = $request->input('user_id');
         $username = $request->input('username');
         $email = $request->input('email');
         $feedback = $request->input('feedback');
@@ -41,16 +41,16 @@ class ContactController extends BaseController
             return redirect()->back()->withInput();
         }
         $insertData = [
-            'user_id' => 1,
             'name' => $username,
             'email' => $email,
-            'feedback' => $feedback
+            'description' => $feedback
         ];
         $request->validate([
             'username' => 'required | max:30',
             'email' => 'required | email',
-            'feedback' => 'required',
+            'description' => 'required',
         ]);
+        $insertData['user_id'] = Auth::id();
         $ContactModel->insertFeedbacks($insertData);
         $request->session()->flash('message', 'Your feedback has been received. Thank you for helping us get better!');
         return redirect()->back();

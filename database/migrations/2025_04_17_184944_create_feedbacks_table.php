@@ -21,6 +21,8 @@ class CreateFeedbacksTable extends Migration
             $table->text('description');
             $table->string('phone')->nullable(); // might be optional
             $table->timestamps();
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Assuming booths belong to users
         });
     }
 
