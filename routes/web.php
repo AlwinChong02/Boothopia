@@ -118,3 +118,8 @@ Route::middleware(['auth', 'role:requester'])->group(function () {
     Route::get('/requester/dashboard', [RequesterController::class, 'index'])->name('requester.dashboard');
 });
 
+Route::get('/organiser/event/create', [EventController::class, 'create'])
+    ->name('organiser.event.create');
+
+Route::post('/organiser/event', [EventController::class, 'store'])
+    ->name('organiser.event.store');

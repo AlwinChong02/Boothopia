@@ -42,5 +42,9 @@ class Booth extends Model
         return true;
     }
 
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 
 }
