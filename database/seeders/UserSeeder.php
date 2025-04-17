@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('admin123'), 
+            'password' => Str::random(8),
             'role' => 'admin',
             'phone' => $faker->voipNumber, // example: "015-458 7099"
             'email_verified_at' => now(),
@@ -34,11 +34,11 @@ class UserSeeder extends Seeder
         ]);
 
         // Create organisers
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             DB::table('users')->insert([
                 'name' => $faker->name('male') . ' (Organiser)', // Indicate role in name for clarity
                 'email' => $faker->unique()->safeEmail,
-                'password' => Hash::make('organiser123'),
+                'password' => Str::random(8),
                 'role' => 'organiser',
                 'phone' => $faker->voipNumber,
                 'email_verified_at' => now(),
@@ -49,11 +49,11 @@ class UserSeeder extends Seeder
         }
 
         // Create requesters (potential booth renters)
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             DB::table('users')->insert([
                 'name' => $faker->name . ' (Requester)',
                 'email' => $faker->unique()->safeEmail,
-                'password' => Hash::make('requester123'),
+                'password' => Str::random(8),
                 'role' => 'requester',
                 'phone' => $faker->voipNumber,
                 'email_verified_at' => now(),

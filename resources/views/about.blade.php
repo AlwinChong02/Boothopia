@@ -1,14 +1,15 @@
-@extends('layouts.app')
-
-@section('title', 'About Page')
-
-@push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
-@endpush
-
-
-@section('content')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head><title>About Page</title><link rel="stylesheet" href="{{ asset('css/myWeb.css') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="{{ asset('js/custom.js') }}"></script>
+    </head>
+    <header class="top-nav"><a href="/home">
+        <img src="/img/boothopiaLogo.png" alt="Booking" class="logo" width="150" height="90"></a>
+        @include('navigationbar')
+    </header>
+    <body>
         <section class="about-section">
             <div class="about-container">
                 <h1 class="text-center">About Us</h1>
@@ -36,5 +37,7 @@
                 <p>We cater to a wide range of events, including weddings, birthday parties, corporate events, and any other special occasions where you want to capture fun and lasting memories.</p>
             </div>
         </div>
-@endsection
+    </body>
+    @include('footer')
+</html>
 
