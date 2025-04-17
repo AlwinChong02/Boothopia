@@ -12,7 +12,52 @@
     margin-right: 10px;
 }
 
-.top-nav{
+.side-nav{
+    background-color: #57B9FF;
+    padding: 20px;
+    font-family: "Overpass", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.side-nav a{
+    text-decoration: none;
+    color: black;
+}
+
+.side-nav a:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.custom-navbar {
+    background-color: rgb(236, 249, 255);
+    position: relative;
+    z-index: 1000; /* Add this line to ensure navbar is on top */
+}
+
+.navbar-nav .dropdown-menu {
+    position: absolute !important;
+    z-index: 1001; /* Bootstrap dropdown default z-index */
+}
+
+.navbar-nav .nav-item {
+    margin-right: 20px; 
+}
+
+nav.navbar .navbar-nav .nav-link {
+    font-size: 18px;
+    color: #333 !important;
+    /* margin-right: 20px; */
+    text-decoration: none;
+    font-family: "Overpass", sans-serif;
+    font-weight: 600;
+}
+
+nav.navbar .navbar-nav .nav-link:hover {
+    color: rgb(27, 114, 171) !important;
+}
+/* .top-nav{
     z-index: 1000;
     display: flex;
     position: fixed;
@@ -54,7 +99,7 @@
 
 .sign-btn{
     padding: 12px 35px;
-}
+} */
 
 
 /* .search-bar{
@@ -71,10 +116,13 @@
 
 
 .search-video{
-    position: absolute;
-    top: -500px;
-    right: 0px;
-    border: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    object-fit: cover;
 }
 
 .search-bar{
@@ -289,3 +337,8 @@
     left: 290px;
     color: red;
 }
+
+/* .toast-body {
+    text-align: center;
+    width: 100%;
+} */

@@ -2,53 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Models\Event;
+
 
 class EventController extends Controller
 {
-    public function create()
+    public function index()
     {
-        return view('organiser.create-event');
+        $events = Event::all();
+        return view('events.index', compact('events'));
     }
 
-    // Process form submission and store the event.
+    public function show($id)
+    {
+        try {
+            $event = Event::with('booths')->findOrFail($id);
+        } catch (\Exception $e) {
+            return redirect()->route('events.index')->with('error', 'Event not found.');
+        }
+        return view('events.show', compact('event'));
+    }
+
+    public function create()
+    {
+        return view('events.create');
+    }
+
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'            => 'required|string|max:255',
-            'description'     => 'required|string',
-            'img'             => 'nullable|image|max:2048', //image upload (max 2MB)
-            'start_date'      => 'required|date',
-            'end_date'        => 'required|date|after_or_equal:start_date',
-            'start_time'      => 'required',
-            'end_time'        => 'required',
-            'location'        => 'required|string|max:255',
-            'category'        => 'required|string|max:100',
-            'booth_quantity'  => 'required|integer|min:1',
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'date' => 'required|date',
+            'location' => 'required|string|max:255',
         ]);
 
-        if ($request->hasFile('img')) {
-            $imagePath = $request->file('img')->store('events', 'public');
-            $validated['img'] = $imagePath;
-        }
+        Event::create($validatedData);
 
-        // Temporarily assign a test organiser ID.
-        $validated['user_id'] = 1;
-
-        // Create the event record.
-        $event = Event::create($validated);
-
-        for ($i = 1; $i <= $validated['booth_quantity']; $i++) {
-            $event->booths()->create([
-                'name'  => "Booth {$i}",
-                // Default price; you can modify or extend this logic as needed.
-                'price' => 0.00
-            ]);
-        }
-
-        return redirect()->route('organiser.event.create')
-            ->with('success', 'Event created successfully!');
+        return redirect()->route('events.index')->with('success', 'Event created successfully!');
+    }
+    public function edit($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('events.edit', compact('event'));
     }
 
     public function approvalPage()
@@ -80,12 +77,6 @@ class EventController extends Controller
                          ->with('success', 'Event rejected successfully!');
     }
 
-    public function show($id)
-    {
-        $event = Event::with('booths')->findOrFail($id);
-
-        return view('organiser.event-profile', compact('event'));
-    }
 
     public function dashboard()
     {
