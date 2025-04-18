@@ -18,15 +18,17 @@
     <link href="{{ asset('css/myWeb.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    
     @stack('styles')
     <script src="{{ asset('js/custom.js') }}"></script>
 </head>
 <body>
     <div id="app">
         <!-- Navigation Bar -->
-        @unless(request()->is('admin/*', 'user/*'))
+        @unless(request()->is('admin/*','user/userList'))
             @include('navigationbar')
         @endunless
         <!-- Page Content -->

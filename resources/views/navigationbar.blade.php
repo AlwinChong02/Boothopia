@@ -49,20 +49,20 @@
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                            {{ Auth::user()->name }}
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                <!-- View Profile -->
                             <a class="dropdown-item" href="{{ route('profile') }}">
-                                View Profile
+                            <i class="fas fa-user me-2" style="padding-right: 10px"></i>View Profile
                             </a>
 
                             <!-- Logout -->
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                          document.getElementById('logout').submit();">
-                                Logout
+                                <i class="fas fa-sign-out-alt me-2" style="padding-right: 10px"></i>Logout
                             </a>
                             <form id="logout" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
