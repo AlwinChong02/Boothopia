@@ -17,12 +17,9 @@ class CreateFeedbacksTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
-            $table->string('subject');
             $table->text('description');
-            $table->string('phone')->nullable(); // might be optional
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade'); // Assuming feedbacks are created by users
             $table->timestamps();
-
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Assuming booths belong to users
         });
     }
 

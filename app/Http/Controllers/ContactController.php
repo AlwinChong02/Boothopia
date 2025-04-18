@@ -30,16 +30,12 @@ class ContactController extends BaseController
     }
 
     function addFeedback(Request $request){
-        $session = session();
         $ContactModel = new ContactModel();
         $created_by = Auth::user();
         $username = $request->input('username');
         $email = $request->input('email');
         $description = $request->input('description');
-        $exists = $ContactModel->getUserId($created_by->id);
-        // if($exists) {
-        //     return redirect()->back()->withInput();
-        // }
+        $ContactModel->getUserId($created_by->id);
         $insertData = [
             'created_by' => $created_by->id,
             'name' => $username,
