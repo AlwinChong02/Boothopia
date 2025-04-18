@@ -9,8 +9,8 @@ class Approval extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'organiser_id',
         'requester_id',
-        'booth_booking_id',
         'status',
         'approval_image',
     ];
