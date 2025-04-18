@@ -18,10 +18,10 @@ class EventSeeder extends Seeder
         DB::table('events')->delete(); // Clear existing events
 
         // Get IDs of organizers/admins to assign as creators
-        $organizerIds = DB::table('users')->whereIn('role', 'organizer')->pluck('id')->toArray();
+        $organiserIds = DB::table('users')->where('role', 'organiser')->pluck('id')->toArray();
 
-        if (empty($organizerIds)) {
-            $this->command->warn('No organizer users found. Skipping EventSeeder.');
+        if (empty($organiserIds)) {
+            $this->command->warn('No organiser users found. Skipping EventSeeder.');
             return;
         }
 
@@ -46,7 +46,7 @@ class EventSeeder extends Seeder
                 'location' => $faker->randomElement($locations) . ', ' . $faker->city . ', Penang', // Add some local context
                 'category' => $faker->randomElement($categories),
                 'booth_quantity' => $faker->numberBetween(10, 50),
-                'user_id' => $faker->randomElement($organizerIds), // Assign a random organizer
+                'user_id' => $faker->randomElement($organiserIds), // Assign a random organizer
                 'created_at' => now()->subDays($faker->numberBetween(5, 100)),
                 'updated_at' => now()->subDays($faker->numberBetween(0, 4)),
             ]);
