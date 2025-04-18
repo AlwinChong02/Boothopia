@@ -29,7 +29,7 @@ class CreateEventsTable extends Migration
             $table->timestamps();
 
             //Foreign key(s)
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Assuming booths belong to users
+            $table->foreignId('user_id')->constrained('users','id')->onDelete('cascade'); // Assuming booths belong to users
         });
     }
 

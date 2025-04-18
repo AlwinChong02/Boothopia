@@ -20,11 +20,11 @@ class CreateBoothsTable extends Migration
             $table->decimal('price', 8, 2); // Price with 8 total digits and 2 decimal places
 
             // Foreign key for the event this booth belongs to
-            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('event_id')->constrained('events','id')->onDelete('cascade'); // Assuming booths belong to events
 
             // Foreign key for the user who has booked/rented the booth (likely a requester)
             // Making it nullable allows booths to exist before being booked.
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // Corresponds to 'user id fk' referencing users table. Set null on user deletion.
+            $table->foreignId('user_id')->nullable()->constrained('users','id')->onDelete('set null'); // Corresponds to 'user id fk' referencing users table. Set null on user deletion.
 
             $table->timestamps();
         });
