@@ -18,6 +18,11 @@
         <div class="mb-3">
             <label for="approval_image" class="form-label">Upload Approval Image</label>
             <input type="file" class="form-control" name="approval_image" id="approval_image" accept="image/*" required>
+
+            {{-- hidden value for organiser id(users role is organiser), requester id, status-> pending --}}
+            <input type="hidden" name="organiser_id" value="{{ $event->user_id }}">
+            <input type="hidden" name="requester_id" value="{{ auth()->user()->id }}">
+            <input type="hidden" name="status" value="pending">
         </div>
         <button type="submit" class="btn btn-primary">Upload Approval Image</button>
     </form>
