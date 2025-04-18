@@ -11,14 +11,14 @@ class ContactModel extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
     protected $fillable = [
-        'user_id',
+        'created_by',
         'name',
         'email',
-        'feedback',
+        'description',
     ];
 
     public function getUserId($user_id){
-        return $this->where('user_id', $user_id)->exists();
+        return $this->where('created_by', $user_id)->exists();
     }
     public function insertFeedbacks($insertData){
         return $this->create($insertData);

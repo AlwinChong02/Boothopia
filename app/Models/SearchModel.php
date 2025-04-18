@@ -10,7 +10,7 @@ class SearchModel extends Model
     protected $table = 'events';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'title',
+        'name',
         'description',
     ];
 
