@@ -1,9 +1,5 @@
 {{-- resources/views/searchBar/index.blade.php --}}
-@extends('layouts.app')
 
-@section('title', 'Search Events')
-
-@section('content')
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="search w-50">
         <h1 class="text-center mb-5">Search Events</h1>
@@ -22,9 +18,9 @@
         <div id="post" class="mt-5"></div>
     </div>
 </div>
-@endsection
 
-@push('scripts')
+
+
 <script>
     $(function () {
         'use strict';
@@ -44,4 +40,4 @@
         });
     });
 </script>
-@endpush
+

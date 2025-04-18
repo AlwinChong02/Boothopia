@@ -12,17 +12,15 @@
         <x-notification type="error" :message="session('error')" />
     @endif
 
-    <button onclick="scrollToTop()">Back to Top</button>
-
-    <video class="search-video" autoplay loop muted width="1600" height="1500">
+    <video class="search-video" autoplay loop muted width="1100" height="1000">
         <source src="/video/roadshow.mp4" type="video/mp4">
     </video>
 
-    <h1 style="font-size: 1000px;">HIt asdasdsad</h1>
+
     <section class="search-section">
         <div class="search-bar">
             <div class="search-background">
-                <img src="{{ asset('img/searchBackground.png') }}" alt="Booking"
+                <img src="{{ asset('img/searchBackground.png') }}" class="search-img" alt="Booking"
                      class="search-background" width="1521" height="750">
             </div>
             @include('searchBar.partials.search')

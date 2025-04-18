@@ -115,18 +115,19 @@ nav.navbar .navbar-nav .nav-link {
 
 
 .search-video{
-    position: fixed;
-    top: 0;
-    left: 0;
     min-width: 100%;
     min-height: 100%;
     z-index: -1;
     object-fit: cover;
 }
 
-.search-bar{
+.search-img{
     position: absolute;
-    top: 780px;
+    top: 1000px;
+    left: 0;
+}
+
+.search-bar{
     width: 100%;
     background-color: rgb(255, 255, 255);
 }
