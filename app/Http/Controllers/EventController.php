@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Event;
-
+use App\Models\Approval;
 
 class EventController extends Controller
 {
@@ -27,16 +27,30 @@ class EventController extends Controller
     public function create()
     {
         return view('events.create');
+        // return view('organiser.create');
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'date' => 'required|date',
-            'location' => 'required|string|max:255',
+            'name'            => 'required|string|max:255',
+            'description'     => 'required|string',
+            'img'             => 'nullable|image|max:2048',
+            'start_date'      => 'required|date',
+            'end_date'        => 'required|date|after_or_equal:start_date',
+            'start_time'      => 'required',
+            'end_time'        => 'required',
+            'location'        => 'required|string|max:255',
+            'category'        => 'required|string|max:100',
+            'booth_quantity'  => 'required|integer|min:1',
         ]);
+
+        $validatedData['user_id'] = Auth::id();
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('event-images', 'public');
+            $validatedData['img'] = $path;
+        }
 
         Event::create($validatedData);
 
@@ -46,5 +60,19 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         return view('events.edit', compact('event'));
+    }
+
+    public function dashboard()
+    {
+        $organiserId = Auth::id();
+
+        $approvals = Approval::with(['event', 'requester'])
+            ->where('status', 'pending')
+            ->whereHas('event', function($q) use ($organiserId) {
+                $q->where('user_id', $organiserId);
+            })
+            ->get();
+
+        return view('organiser.dashboard', compact('approvals'));
     }
 }

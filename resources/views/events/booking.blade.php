@@ -44,13 +44,11 @@
                         @php $isAvailable = is_null($booth->user_id); @endphp
                         <div class="col-md-4 mb-3">
                             <div class="card h-100 booth-card {{ $isAvailable ? '' : 'booth-unavailable' }}">
-                                {{-- @if($booth->img)
-                                    <img src="{{ $booth->img }}" class="card-img-top" alt="{{ $booth->name }}">
-                                @endif --}}
+
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $booth->name }}</h5>
                                     <p class="card-text">{{ $booth->description }}</p>
-                                    {{-- <p><strong>Location:</strong> {{ $booth->location }}</p> --}}
+
                                     <p><strong>Price:</strong> ${{ number_format($booth->price, 2) }}</p>
                                     <div class="form-check">
                                         <input class="form-check-input booth-checkbox" type="checkbox" name="booths[]" value="{{ $booth->id }}"

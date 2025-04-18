@@ -19,4 +19,8 @@ class Event extends Model
     {
         return $this->hasMany(Booth::class);
     }
+    protected $fillable = [
+        'name', 'description', 'status', 'img', 'start_date', 'end_date',
+        'start_time', 'end_time', 'location', 'category', 'booth_quantity', 'user_id'
+    ];
 }

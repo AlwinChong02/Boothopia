@@ -40,12 +40,48 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    // Show the login form
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    // Handle the login attempt
+    public function login(Request $request)
+    {
+        // Input validation with custom error messages
+        $request->validate([
+            'email' => ['required', 'email', 'exists:users,email'],
+            'password' => ['required', 'string', 'min:8'],
+        ], [
+            'email.required' => 'Please enter your email address.',
+            'email.exists' => 'We could not find an account with that email.',
+            'password.required' => 'Please enter your password.',
+            'password.min' => 'Password must be at least 8 characters.',
+        ]);
+
+        // Attempt login with provided credentials
+        if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+            // Regenerate the session to avoid session fixation attacks
+            $request->session()->regenerate();
+
+            // Redirect to the home page after successful login
+            return redirect()->intended('/home')
+                ->with('success', 'Login successful! Welcome back.');
+        }
+
+        // If authentication fails, redirect back with input and error message
+        return back()->withInput()->withErrors([
+            'password' => 'The password you entered is incorrect.',
+        ]);
+    }
+
     public function logout(Request $request)
     {
-        Auth::logout(); 
-        $request->session()->invalidate(); 
+        Auth::logout();
+        $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/home'); 
+        return redirect('/home')->with('success', 'You have been logged out.');
     }
 }

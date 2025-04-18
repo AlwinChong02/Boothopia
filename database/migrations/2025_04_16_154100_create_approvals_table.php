@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFeedbacksTable extends Migration
+class CreateApprovalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateFeedbacksTable extends Migration
      */
     public function up()
     {
-        Schema::create('feedbacks', function (Blueprint $table) {
+        Schema::create('approvals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
-            $table->string('subject');
-            $table->text('description');
-            $table->string('phone')->nullable(); // might be optional
+            $table->integer('organiser_id');
+            $table->integer('requester_id');
+            $table->enum('status',['pending', 'approved', 'rejected']);
+            $table->string('approval_image')->nullable();
             $table->timestamps();
+
         });
     }
 
@@ -31,6 +31,6 @@ class CreateFeedbacksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feedbacks');
+        Schema::dropIfExists('approvals');
     }
 }

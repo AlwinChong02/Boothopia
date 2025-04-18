@@ -44,29 +44,29 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone' => ['nullable', 'string', 'max:15'], 
+            'phone' => ['nullable', 'regex:/^\d+$/', 'min:10', 'max:15'], 
             'role' => ['required', 'string', 'in:organiser,requester'],
+        ], [
+            'name.required' => 'Please enter your name.',
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email address is already taken.',
+            'password.required' => 'Please enter your password.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Confirm password must match the password.',
+            'phone.regex' => 'Phone number must contain digits only.',
+            'phone.min' => 'Phone number must be at least 10 digits.',
+            'phone.max' => 'Phone number cannot exceed 15 digits.',
+            'role.required' => 'Please select a role.',
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
     protected function create(array $data)
     {
         return User::create([

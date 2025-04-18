@@ -37,9 +37,6 @@ class BoothSeeder extends Seeder
                 DB::table('booths')->insert([
                     'name' => Str::random(10) . ' Booth ' . $i,
                     'description' => $faker->sentence,
-                    // Booth location relative to event location
-                    'location' => $eventLocation . ' - Booth ' . $i,
-                    'img' => $faker->imageUrl(400, 300, 'technics', true), // Placeholder image
                     'event_id' => $eventId,
                     'price' => $faker->randomFloat(2, 50, 500), // Price between 50.00 and 500.00
 

@@ -8,6 +8,8 @@
 
     <!-- Bootstrap CSS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- Global Styles -->
     <!-- Css for login/register -->
@@ -35,16 +37,5 @@
         <!-- Footer -->
         @include('footer')
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script>
-        @if(session('success'))
-            toastr.success("{{ session('success') }}");
-        @endif
-
-        @if(session('error'))
-            toastr.error("{{ session('error') }}");
-        @endif
-    </script>
 </body>
 </html>

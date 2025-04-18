@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -9,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \App\Models\ContactModel;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends BaseController
 {
@@ -21,7 +21,7 @@ class ContactController extends BaseController
         $request->validate([
             'username' => 'required',
             'email' => 'required|email',
-            'feedback' => 'required'
+            'description' => 'required'
         ]);
         $data = $request->input();
         $request->session()->flash('user', $data['username']);
@@ -30,27 +30,24 @@ class ContactController extends BaseController
     }
 
     function addFeedback(Request $request){
-        $session = session();
         $ContactModel = new ContactModel();
-        $user_id = $request->input('get_user_id');
+        $created_by = Auth::user();
         $username = $request->input('username');
         $email = $request->input('email');
-        $feedback = $request->input('feedback');
-        $exists = $ContactModel->getUserId($user_id);
-        if($exists) {
-            return redirect()->back()->withInput();
-        }
+        $description = $request->input('description');
+        $ContactModel->getUserId($created_by->id);
         $insertData = [
-            'user_id' => 1,
+            'created_by' => $created_by->id,
             'name' => $username,
             'email' => $email,
-            'feedback' => $feedback
+            'description' => $description
         ];
         $request->validate([
             'username' => 'required | max:30',
             'email' => 'required | email',
-            'feedback' => 'required',
+            'description' => 'required',
         ]);
+        $insertData['user_id'] = Auth::id();
         $ContactModel->insertFeedbacks($insertData);
         $request->session()->flash('message', 'Your feedback has been received. Thank you for helping us get better!');
         return redirect()->back();

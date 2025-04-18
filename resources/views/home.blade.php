@@ -2,6 +2,14 @@
 
 @section('title', 'Home Page') 
 
+@if(session('success'))
+    <x-notification type="success" :message="session('success')" />
+@endif
+
+@if(session('error'))
+    <x-notification type="error" :message="session('error')" />
+@endif
+
 @section('content')
     @if(session('success'))
         <div class="alert alert-success mt-3">
