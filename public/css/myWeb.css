@@ -112,8 +112,6 @@ nav.navbar .navbar-nav .nav-link {
     opacity: 1;
 } */
 
-
-
 .search-video{
     min-width: 100%;
     min-height: 100%;
@@ -175,7 +173,7 @@ nav.navbar .navbar-nav .nav-link {
 .footer-section-contact{
     position: relative;
     width: 30%;
-    top: -15px;
+    top: 0px;
 }
 
 .contact-footer{
@@ -334,6 +332,12 @@ nav.navbar .navbar-nav .nav-link {
     top: 190px;
     left: 290px;
     color: red;
+}
+
+.company-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* .toast-body {

@@ -16,7 +16,6 @@
         <source src="/video/roadshow.mp4" type="video/mp4">
     </video>
 
-
     <section class="search-section">
         <div class="search-bar">
             <div class="search-background">

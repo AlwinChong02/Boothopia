@@ -28,8 +28,6 @@
                 <p><strong>Date:</strong> {{ $event->start_date }} to {{ $event->end_date }}</p>
                 <p><strong>Location:</strong> {{ $event->location }}</p>
                 <p><strong>Description:</strong> {{ $event->description }}</p>
-                        {{-- display authenticated user(for testing purpose) --}}
-                <p><strong>Authenticated User:</strong> {{ auth()->user()->name }}</p>
                 
             </div>
         </div>

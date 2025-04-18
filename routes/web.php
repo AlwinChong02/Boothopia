@@ -73,11 +73,13 @@ Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contac
 
 //Events
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+Route::get('/events/{id}', [EventController::class, 'show'])
+         ->whereNumber('id')
+         ->name('events.show');
 
 Route::middleware(['auth','role:organiser'])->group(function () {
     Route::get('/events/create', [EventController::class, 'create'])
-         ->name('events.create');
+         ->name('organiser.events.create');
     Route::post('/events', [EventController::class, 'store'])
          ->name('events.store');
 });
