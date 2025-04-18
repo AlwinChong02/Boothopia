@@ -68,9 +68,6 @@ Route::group(['prefix' => 'searchBar', 'as' => 'searchBar.'], function () {
         [SearchController::class, 'show']
     )->name('show');
 });
-// Route::get('/datatest', [Events::class, 'testData']);
-
-Route::get('page/{id}', [SearchController::class, 'pages'])->name('pages');
 
 Route::get("/contact", [ContactController::class, 'showContactPage']);
 Route::post("/contact", [ContactController::class, 'contact']);

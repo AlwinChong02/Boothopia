@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@include('navigationbar')
+
 @section('content')
     <div class="container mt-4">
-        <a href="{{ route('events.index') }}" class="btn btn-secondary mb-3">&larr; Back to Events</a>
+        <a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">&larr; Back to Events</a>
         <h2>{{ $event->name }}</h2>
         <p>{{ $event->description }}</p>
         <p><strong>Status:</strong> {{ $event->status }}</p>
