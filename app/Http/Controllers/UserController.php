@@ -35,10 +35,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', User::class); 
-        $data = User::paginate(15); //all users data
+        // $data = User::paginate(15); //all users data
+        $perPage = $request->get('perPage', 10); // Default to 10 per page
+        $data = User::paginate($perPage);
+    
         return view('user.userList', ['users' => $data]);
     }
 

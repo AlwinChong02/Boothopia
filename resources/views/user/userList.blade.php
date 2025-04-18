@@ -16,98 +16,34 @@
     @include('layouts.sidenav')
 
     {{-- Main Content --}}
-    <div style="padding: 25px;"> 
-        <h2 class="mb-4 pt-4">User List</h2>
-
-        <div>
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>Created At</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($users as $user)
-                        <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->phone ?? 'N/A' }}</td>
-                            <td>{{ ucfirst($user->role) }}</td>
-                            <td>{{ $user->created_at->format('Y-m-d') }}</td>
-                            <td>
-                                <form action="{{ route('user.updateForm', ['id' => $user ->id]) }}" method="GET">
-                                    <button class="btn btn-primary">Update</button>
-                                </form>
-                            </td>  
-                            <td>
-                                <form action="{{ route('user.delete', ['id' => $user->id]) }}" method="GET" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                    @csrf
-                                    <button class="btn btn-danger">Delete</button>
-                                </form> 
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <div class="mt-4">
-                {{ $users->links() }}
-            </div>
-        </div>
-    </div>
+    <x-table 
+        title="User List"
+        :headers="['ID', 'Name', 'Email', 'Phone', 'Role', 'Created At', 'Update', 'Delete']"
+        :route="route('userList')"
+        :paginator="$users"
+    >
+        {{-- Optional slot for table body rows --}}
+        @foreach($users as $user)
+            <tr>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->phone ?? 'N/A' }}</td>
+                <td>{{ ucfirst($user->role) }}</td>
+                <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                <td>
+                    <form action="{{ route('user.updateForm', ['id' => $user->id]) }}" method="GET">
+                        <button class="btn btn-primary btn-sm">Update</button>
+                    </form>
+                </td>  
+                <td>
+                    <form action="{{ route('user.delete', ['id' => $user->id]) }}" method="GET" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        @csrf
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </x-table>
 </div>
-
-<style>
-    .w-5{ 
-        display: none 
-    } 
-    
-    .custom-table {
-        width: 100%;
-        table-layout: fixed;
-        border-collapse: collapse;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .custom-table th, .custom-table td {
-        padding: 14px 20px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-    }
-
-    .custom-table th {
-        background-color: #0096C7;
-        color: white;
-    }
-
-    .custom-table tr:hover {
-        background-color: #f1f1f1;
-    }
-
-    .custom-table td {
-        font-size: 14px;
-        color: #333;
-        word-wrap: break-word;
-        white-space: normal;
-    }
-
-    h2 {
-        color: #333;
-    }
-
-    .custom-table th:nth-child(1),
-    .custom-table td:nth-child(1) {
-        width: 58px; /* ID */
-    }
-</style>
 @endsection
