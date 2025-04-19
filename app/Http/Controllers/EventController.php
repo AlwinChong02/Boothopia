@@ -56,11 +56,6 @@ class EventController extends Controller
 
         return redirect()->route('events.index')->with('success', 'Event created successfully!');
     }
-    public function edit($id)
-    {
-        $event = Event::findOrFail($id);
-        return view('events.edit', compact('event'));
-    }
 
     public function dashboard()
     {
