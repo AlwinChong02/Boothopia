@@ -17,19 +17,17 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->enum('status', ['ongoing', 'canceled', 'unlisted', 'upcoming'])->default('upcoming'); // Added 'upcoming' as a likely status, set default
-            $table->string('img')->nullable(); // Image path/URL, likely nullable
+            $table->enum('status', ['ongoing', 'canceled', 'unlisted', 'upcoming'])->default('upcoming');
+            $table->string('img')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->time('start_time');
             $table->time('end_time');
             $table->string('location');
             $table->string('category');
-            $table->integer('booth_quantity')->unsigned(); // quantity cannot negative
+            $table->integer('booth_quantity')->unsigned();
             $table->timestamps();
-
-            //Foreign key(s)
-            $table->foreignId('user_id')->constrained('users','id')->onDelete('cascade'); // Assuming booths belong to users
+            $table->foreignId('user_id')->constrained('users','id')->onDelete('cascade');
         });
     }
 

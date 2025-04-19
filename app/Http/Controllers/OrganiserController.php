@@ -28,7 +28,7 @@ class OrganiserController extends Controller
         $validated = $request->validate([
             'name'            => 'required|string|max:255',
             'description'     => 'required|string',
-            'img'             => 'nullable|image|max:2048',
+            'img'             => 'nullable|image|max:10000',
             'start_date'      => 'required|date',
             'end_date'        => 'required|date|after_or_equal:start_date',
             'start_time'      => 'required',
