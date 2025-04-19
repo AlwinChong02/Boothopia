@@ -15,12 +15,16 @@ class CreateApprovalsTable extends Migration
     {
         Schema::create('approvals', function (Blueprint $table) {
             $table->id();
-            $table->integer('organiser_id');
-            $table->integer('requester_id');
-            $table->enum('status',['pending', 'approved', 'rejected']);
+            $table->integer('organiser_id'); 
+            $table->integer('requester_id'); 
+            $table->integer('event_id');
+            $table->integer('booth_quantity');
+            $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->string('approval_image')->nullable();
+            $table->timestamp('reviewed_at')->nullable();
             $table->timestamps();
 
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
         });
     }
 
