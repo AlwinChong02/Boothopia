@@ -35,14 +35,12 @@
     <div class="container approval-container mt-4">
         <h2>Approve or Reject Booth Bookings</h2>
 
-        {{-- Success message --}}
         @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
         @endif
 
-        {{-- No pending approvals --}}
         @if($approvals->isEmpty())
         <p>No pending booth bookings to approve.</p>
         @else

@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Approval;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -27,7 +29,6 @@ class EventController extends Controller
     public function create()
     {
         return view('events.create');
-        // return view('organiser.create');
     }
 
     public function store(Request $request)
@@ -63,11 +64,33 @@ class EventController extends Controller
 
         $approvals = Approval::with(['event', 'requester'])
             ->where('status', 'pending')
-            ->whereHas('event', function($q) use ($organiserId) {
+            ->whereHas('event', function ($q) use ($organiserId) {
                 $q->where('user_id', $organiserId);
             })
             ->get();
 
         return view('organiser.dashboard', compact('approvals'));
+    }
+
+    public function cancel($id)
+    {
+        $event = Event::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $today = Carbon::today();
+        $start = Carbon::parse($event->start_date);
+
+        if ($today->diffInDays($start) < 7) {
+            return redirect()
+                ->route('events.booking', ['event' => $event->id])
+                ->with('error', 'You can only cancel at least 7 days before the event start date.');
+        }
+        $event->status = 'canceled';
+        $event->save();
+
+        return redirect()
+            ->route('events.booking', ['event' => $event->id])
+            ->with('success', 'Event has been canceled.');
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Carbon\Carbon;
+
 class OrganiserController extends Controller
 {
     public function __construct()
@@ -61,8 +63,8 @@ class OrganiserController extends Controller
     public function approvalPage()
     {
         $events = Event::where('user_id', 1)
-                       ->where('status', 'unlisted')
-                       ->get();
+            ->where('status', 'unlisted')
+            ->get();
 
         return view('organiser.approval', compact('events'));
     }
@@ -74,7 +76,7 @@ class OrganiserController extends Controller
         $event->save();
 
         return redirect()->route('organiser.event.approval')
-                         ->with('success', 'Event approved successfully!');
+            ->with('success', 'Event approved successfully!');
     }
 
     public function reject($id)
@@ -84,7 +86,7 @@ class OrganiserController extends Controller
         $event->save();
 
         return redirect()->route('organiser.event.approval')
-                         ->with('success', 'Event rejected successfully!');
+            ->with('success', 'Event rejected successfully!');
     }
 
     public function show($id)
@@ -96,26 +98,76 @@ class OrganiserController extends Controller
 
     public function dashboard()
     {
-        $organiserId = 1;
+        $organiserId = Auth::id();
 
         $totalEvents     = Event::where('user_id', $organiserId)->count();
-        $upcomingEvents  = Event::where('user_id', $organiserId)->where('status', 'upcoming')->count();
-        $ongoingEvents   = Event::where('user_id', $organiserId)->where('status', 'ongoing')->count();
+        $upcomingEvents = Event::where('user_id', $organiserId)
+            ->where('status', 'upcoming')
+            ->count();
+        $ongoingEvents = Event::where('user_id', $organiserId)
+            ->where('status', 'ongoing')
+            ->count();
         $canceledEvents  = Event::where('user_id', $organiserId)->where('status', 'canceled')->count();
         $unlistedEvents  = Event::where('user_id', $organiserId)->where('status', 'unlisted')->count();
 
         $latestEvents = Event::where('user_id', $organiserId)
-                             ->orderBy('created_at', 'desc')
-                             ->take(5)
-                             ->get();
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
 
         return view('organiser.dashboard', compact(
-            'totalEvents', 
-            'upcomingEvents', 
-            'ongoingEvents', 
-            'canceledEvents', 
+            'totalEvents',
+            'upcomingEvents',
+            'ongoingEvents',
+            'canceledEvents',
             'unlistedEvents',
             'latestEvents'
         ));
+    }
+
+    public function ongoing()
+    {
+        $organiserId = Auth::id();
+        $today       = Carbon::today()->toDateString();
+
+        $events = Event::where('user_id', $organiserId)
+            ->where('status', 'ongoing')
+            ->get();
+
+        return view('organiser.ongoing', compact('events'));
+    }
+
+    public function upcoming()
+    {
+        $organiserId = Auth::id();
+        $today       = Carbon::today()->toDateString();
+        $events = Event::where('user_id', $organiserId)
+            ->where('status', 'upcoming')
+            ->orderBy('start_date', 'desc')
+            ->get();
+
+        return view('organiser.upcoming', compact('events'));
+    }
+
+    public function canceled()
+    {
+        $organiserId = Auth::id();
+        $events = Event::where('user_id', $organiserId)
+            ->where('status', 'canceled')
+            ->orderBy('start_date', 'desc')
+            ->get();
+
+        return view('organiser.canceled', compact('events'));
+    }
+
+    public function all()
+    {
+        $organiserId = Auth::id();
+
+        $events = Event::where('user_id', $organiserId)
+            ->orderBy('start_date', 'desc')
+            ->get();
+
+        return view('organiser.all', compact('events'));
     }
 }

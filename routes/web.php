@@ -33,9 +33,7 @@ Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/home', function () {
-//     return view('home');
-// })->name('home');
+
 Route::get('/navigationbar', function () {
     return view('navigationbar');
 });
@@ -69,21 +67,22 @@ Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contac
 //Events
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{id}', [EventController::class, 'show'])
-         ->whereNumber('id')
-         ->name('events.show');
+    ->whereNumber('id')
+    ->name('events.show');
 
 Route::middleware(['auth','role:organiser'])->group(function () {
     Route::get('/events/create', [EventController::class, 'create'])
-         ->name('organiser.events.create');
+        ->name('organiser.events.create');
     Route::post('/events', [EventController::class, 'store'])
-         ->name('events.store');
+        ->name('events.store');
+    Route::post('/events/{event}/cancel',[EventController::class, 'cancel'])->name('events.cancel');
 });
 
 Route::middleware(['auth','role:admin|organiser'])->group(function () {
     Route::put('/events/{id}', [EventController::class, 'update'])
-         ->name('events.update');
+        ->name('events.update');
     Route::delete('/events/{id}', [EventController::class, 'destroy'])
-         ->name('events.destroy');
+        ->name('events.destroy');
 });
 
 // Event booth booking routes
@@ -114,6 +113,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // Organiser Dashboard Route
 Route::middleware(['auth', 'role:organiser'])->group(function () {
     Route::get('/organiser/dashboard', [OrganiserController::class, 'dashboard'])->name('organiser.dashboard');
+    Route::get('/organiser/events/upcoming', [OrganiserController::class, 'upcoming'])->name('organiser.events.upcoming');
+    Route::get('/organiser/events/ongoing', [OrganiserController::class, 'ongoing'])->name('organiser.events.ongoing');
+    Route::get('/organiser/events/canceled', [OrganiserController::class, 'canceled'])->name('organiser.events.canceled');
+    Route::get('/organiser/events/all', [OrganiserController::class, 'all'])->name('organiser.events.all');
 });
 
 // Requester Dashboard Route

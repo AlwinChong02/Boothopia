@@ -10,34 +10,51 @@
 
         <div class="row g-3">
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card position-relative">
                     <h4>Total Events</h4>
-                    <p>{{ $totalEvents }}</p>
+                    <p>
+                        <a href="{{ route('organiser.events.all') }}"
+                            class="stretched-link text-decoration-none text-dark">
+                            {{ $totalEvents }}
+                        </a>
+                    </p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card position-relative">
                     <h4>Upcoming</h4>
-                    <p>{{ $upcomingEvents }}</p>
+                    <p>
+                        <a href="{{ route('organiser.events.upcoming') }}"
+                            class="stretched-link text-decoration-none text-dark">
+                            {{ $upcomingEvents }}
+                        </a>
+                    </p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card position-relative">
                     <h4>Ongoing</h4>
-                    <p>{{ $ongoingEvents }}</p>
+                    <p>
+                        <a href="{{ route('organiser.events.ongoing') }}"
+                            class="stretched-link text-decoration-none text-dark">
+                            {{ $ongoingEvents }}
+                        </a>
+                    </p>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card position-relative">
                     <h4>Canceled</h4>
-                    <p>{{ $canceledEvents }}</p>
+                    <p>
+                        <a href="{{ route('organiser.events.canceled') }}"
+                            class="stretched-link text-decoration-none text-dark">
+                            {{ $canceledEvents }}
+                        </a>
+                    </p>
                 </div>
             </div>
-        </div>
-
-        <div class="row g-3 mt-4">
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card position-relative">
                     <h4>Pending Approval</h4>
                     <p>
                         <a href="{{ route('organiser.approval') }}"
