@@ -29,8 +29,10 @@ class PaymentController extends Controller
         Approval::create([
             'organiser_id' => $request->input('organiser_id'),
             'requester_id' => $request->input('requester_id'),
+            'event_id' => $request->input('event_id'), 
+            'booth_quantity' => $request->input('booth_quantity'),
             'status' => $request->input('status'),
-            'approval_image' => 'img/approvals/'.$imageName,
+            'approval_image' => $imageName,
         ]);
         
         return redirect('/home')->with('success', 'Approval image uploaded successfully!');

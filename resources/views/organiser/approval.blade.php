@@ -42,31 +42,56 @@
         @endif
 
         @if($approvals->isEmpty())
-        <p>No pending booth bookings to approve.</p>
+        <p>No booth bookings to approve.</p>
         @else
-        @foreach ($approvals as $approval)
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">
-                    Event: {{ $approval->event->name ?? 'Unknown Event' }}
-                </h5>
-                <p class="card-text">
-                    <strong>Requested by:</strong> {{ $approval->requester->name ?? 'N/A' }}<br>
-                    <strong>Booths:</strong> {{ $approval->booth_quantity ?? '–' }}
-                </p>
-                <div class="d-flex">
-                    <form action="{{ route('requester.approval.approve', $approval->id) }}" method="POST" class="me-2">
-                        @csrf
-                        <button type="submit" class="btn btn-success">Approve</button>
-                    </form>
-                    <form action="{{ route('requester.approval.reject', $approval->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Reject</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        @endforeach
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Requested by</th>
+                    <th>Booth Quantity</th>
+                    <th>Approval Image</th>
+
+                    <th>Action</th>
+                    <th>Status</th>
+                    <th>Reviewed At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($approvals as $approval)
+                <tr>
+                    <td>{{ $approval->event->name ?? 'Unknown Event' }}</td>
+                    <td>{{ $approval->requester->name ?? 'N/A' }}</td>
+                    <td>{{ $approval->booth_quantity ?? '-' }}</td>
+                    <td>
+                        @if ($approval->approval_image)
+                        <img src="{{ asset('storage/' . $approval->approval_image) }}" alt="Approval Image" width="100">
+                        @else
+                        No Image
+                        @endif
+                    </td>
+                    
+                    <td class="d-flex">
+                        @if($approval->status === 'pending')
+                        <form action="{{ route('organiser.approval.approve', $approval->id) }}" method="POST" class="me-2">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form action="{{ route('organiser.approval.reject', $approval->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                        @else
+                        <button class="btn btn-secondary btn-sm me-2" disabled>Accept</button>
+                        <button class="btn btn-secondary btn-sm" disabled>Reject</button>
+                        @endif
+                    </td>
+                    <td>{{ ucfirst($approval->status) }}</td>
+                    <td>{{ $approval->updated_at ?: 'N/A' }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
         @endif
     </div>
 

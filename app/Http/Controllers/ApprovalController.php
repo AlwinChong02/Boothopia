@@ -9,7 +9,10 @@ class ApprovalController extends Controller
 {
     public function index()
     {
-        $approvals = Approval::where('organiser_id', auth()->id())->get();
+        $approvals = Approval::where('organiser_id', auth()->id())
+            ->orderByRaw("CASE WHEN status = 'pending' THEN 0 ELSE 1 END")
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         return view('organiser.approval', compact('approvals'));
     }
@@ -22,10 +25,13 @@ class ApprovalController extends Controller
     public function approve($id)
     {
         $approval = Approval::findOrFail($id);
-        $approval->status = 'ongoing';
+        $approval->status = 'approved';
+        $approval->reviewed_at = now();
         $approval->save();
 
-        $approval->event->update(['status' => 'ongoing']);
+        if ($approval->event) {
+            $approval->event->update(['status' => 'ongoing']);
+        }
 
         return redirect()->route('organiser.approval')
             ->with('success', 'Booking approved!');
@@ -34,7 +40,8 @@ class ApprovalController extends Controller
     public function reject($id)
     {
         $approval = Approval::findOrFail($id);
-        $approval->status = 'cancelled';
+        $approval->status = 'rejected';
+        $approval->reviewed_at = now();
         $approval->save();
 
         return redirect()->route('organiser.approval')->with('success', 'Booth booking rejected successfully.');

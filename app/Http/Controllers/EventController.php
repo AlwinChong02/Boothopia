@@ -53,7 +53,16 @@ class EventController extends Controller
             $validatedData['img'] = $path;
         }
 
-        Event::create($validatedData);
+        $event = Event::create($validatedData);
+
+        // Create booths for this event
+        for ($i = 1; $i <= $event->booth_quantity; $i++) {
+            $event->booths()->create([
+                'name' => "Booth $i",
+                'description' => null,
+                'price' => 20.00, // Set default price(assumption: 20.00 per booth)
+            ]);
+        }
 
         return redirect()->route('events.index')->with('success', 'Event created successfully!');
     }
