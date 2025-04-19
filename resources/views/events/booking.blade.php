@@ -1,42 +1,22 @@
-{{--
-
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     .booth-unavailable {
       opacity: .5;
       pointer-events: none;
+      border: 1px solid #dc3545 !important; 
     }
-
     .card.booth-card.selected {
-      border: 4px solid #007bff !important;
+      border: 2px solid #007bff !important;
       box-shadow: 0 0 12px #007bff66 !important;
       z-index: 2;
     }
   </style>
-  @include('navigationbar')
-</head> --}}
-
-@section('head')
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-  @include('navigationbar')
-  <style>
-    .booth-unavailable {
-      opacity: .5;
-      pointer-events: none;
-    }
-
-    .card.booth-card.selected {
-      border: 4px solid #007bff !important;
-      box-shadow: 0 0 12px #007bff66 !important;
-      z-index: 2;
-    }
-  </style>
-@endsection
+  
+</head>
 
 
+{{-- @include('navigationbar') --}}
 @extends('layouts.app')
 @section('title', $event->name)
 
