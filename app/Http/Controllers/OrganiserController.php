@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approval;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Event;
@@ -45,7 +46,7 @@ class OrganiserController extends Controller
             $validated['img'] = $imagePath;
         }
 
-        $validated['user_id'] = 1;
+        $validated['user_id'] = Auth::id();
 
         $event = Event::create($validated);
 
@@ -62,7 +63,8 @@ class OrganiserController extends Controller
 
     public function approvalPage()
     {
-        $events = Event::where('user_id', 1)
+        $organiserId = Auth::id();
+        $events = Event::where('user_id', $organiserId)
             ->where('status', 'unlisted')
             ->get();
 
@@ -108,7 +110,9 @@ class OrganiserController extends Controller
             ->where('status', 'ongoing')
             ->count();
         $canceledEvents  = Event::where('user_id', $organiserId)->where('status', 'canceled')->count();
-        $unlistedEvents  = Event::where('user_id', $organiserId)->where('status', 'unlisted')->count();
+        $unlistedEvents  = Approval::where('organiser_id', $organiserId)
+            ->where('status', 'pending')
+            ->count();
 
         $latestEvents = Event::where('user_id', $organiserId)
             ->orderBy('created_at', 'desc')
