@@ -13,6 +13,7 @@ class Approval extends Model
         'requester_id',
         'event_id',
         'booth_quantity',
+        'booth_ids', // Added to allow mass assignment
         'status',
         'approval_image',
         'reviewed_at',

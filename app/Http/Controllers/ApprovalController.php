@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approval;
+use App\Models\Booth;
 use Illuminate\Http\Request;
 
 class ApprovalController extends Controller
@@ -33,6 +34,17 @@ class ApprovalController extends Controller
             $approval->event->update(['status' => 'ongoing']);
         }
 
+        // set the requester booths to "booked" status
+        $boothIds = explode(',', $approval->booth_ids);
+        
+        // find all booths by ids from the booth model
+        $pendingBooths = Booth::find($boothIds);
+        foreach ($pendingBooths as $booth) {
+            $booth->update([
+                'status' => 'booked',
+                'user_id' => $approval->requester_id]);
+        }
+
         return redirect()->route('organiser.approval')
             ->with('success', 'Booking approved!');
     }
@@ -43,6 +55,15 @@ class ApprovalController extends Controller
         $approval->status = 'rejected';
         $approval->reviewed_at = now();
         $approval->save();
+
+        // set the requester booths to "available" status
+        $boothIds = explode(',', $approval->booth_ids);
+
+        // find all booths by ids from the booth model
+        $boothtable = Booth::whereIn('id', $boothIds)->get();
+        foreach ($boothtable as $booth) {
+            $booth->update(['status' => 'available']);
+        }
 
         return redirect()->route('organiser.approval')->with('success', 'Booth booking rejected successfully.');
     }

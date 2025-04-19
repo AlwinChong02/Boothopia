@@ -18,6 +18,7 @@ class CreateBoothsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable(); 
             $table->decimal('price', 8, 2);
+            $table->enum('status', ['available', 'booked'])->default('available'); // Status of the booth
             $table->foreignId('event_id')->constrained('events','id')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained('users','id')->onDelete('set null');
 

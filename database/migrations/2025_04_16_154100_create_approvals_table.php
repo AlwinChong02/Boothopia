@@ -19,6 +19,7 @@ class CreateApprovalsTable extends Migration
             $table->integer('requester_id'); 
             $table->integer('event_id');
             $table->integer('booth_quantity');
+            $table->string('booth_ids')->nullable(); // IDs of booths requested
             $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->string('approval_image')->nullable();
             $table->timestamp('reviewed_at')->nullable();

@@ -28,9 +28,9 @@ class BoothSeeder extends Seeder
 
         foreach ($eventIds as $eventId) {
             $boothQuantity = DB::table('events')->where('id', $eventId)->value('booth_quantity');
-            $eventLocation = DB::table('events')->where('id', $eventId)->value('location');
 
-            for ($i = 1; $i <= $boothQuantity; $i++) {
+
+            for ($i = 1; $i <= $boothQuantity; $i++) {  
                 // Decide if this booth is rented (e.g., 70% chance)
                 $isRented = !empty($requesterIds) && $faker->boolean(70);
 
@@ -39,7 +39,7 @@ class BoothSeeder extends Seeder
                     'description' => $faker->sentence,
                     'event_id' => $eventId,
                     'price' => $faker->randomFloat(2, 50, 500), // Price between 50.00 and 500.00
-
+                    
                     // Assign a requester ID if rented, otherwise null
                     'user_id' => $isRented ? $faker->randomElement($requesterIds) : null,
                     'created_at' => now()->subDays($faker->numberBetween(5, 90)),

@@ -9,7 +9,7 @@ class Booth extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'location', 'img', 'price'];
+    protected $fillable = ['name', 'description', 'location', 'img', 'price', 'status'];
 
 
     public function index()
@@ -44,7 +44,7 @@ class Booth extends Model
 
     public function event()
     {
-        return $this->belongsTo(Event::class);
+        return $this->hasOne(Event::class);
     }
 
 }

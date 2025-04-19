@@ -31,6 +31,7 @@ class PaymentController extends Controller
             'requester_id' => $request->input('requester_id'),
             'event_id' => $request->input('event_id'), 
             'booth_quantity' => $request->input('booth_quantity'),
+            'booth_ids' => $request->input('booth_ids'), // Use booth_ids from the form
             'status' => $request->input('status'),
             'approval_image' => $imageName,
         ]);

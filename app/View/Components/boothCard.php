@@ -9,11 +9,11 @@ class boothCard extends Component
     public $id;
     public $name;
     public $description;
-    public $location;
-    public $img;
     public $price;
     public $event_id;
     public $user_id;
+
+
 
     /**
      * Create a new component instance.
@@ -25,11 +25,10 @@ class boothCard extends Component
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->location = $location;
-        $this->img = $img;
         $this->price = $price;
         $this->event_id = $event_id;
         $this->user_id = $user_id;
+
     }
 
     /**
