@@ -10,9 +10,6 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('userList')}}">User List</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Reports</a>
-        </li>
         {{-- Add more admin links as needed --}}
     </ul>
 </div>
