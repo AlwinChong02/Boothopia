@@ -1,5 +1,3 @@
-{{-- resources/views/searchBar/index.blade.php --}}
-
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="search w-50">
         <h1 class="text-center mb-5">Search Events</h1>

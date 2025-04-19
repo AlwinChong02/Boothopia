@@ -17,17 +17,7 @@ class ContactController extends BaseController
         return view('/contact');
     }
     
-    function contact(Request $request){
-        $request->validate([
-            'username' => 'required',
-            'email' => 'required|email',
-            'description' => 'required'
-        ]);
-        $data = $request->input();
-        $request->session()->flash('user', $data['username']);
-        $request->session()->flash('message', 'feedback successfully send!');
-        return redirect("/contact");
-    }
+
 
     function addFeedback(Request $request){
         $ContactModel = new ContactModel();

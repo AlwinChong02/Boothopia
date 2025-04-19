@@ -50,10 +50,6 @@ Route::get('/about', function () {
 });
 
 Route::group(['prefix' => 'searchBar', 'as' => 'searchBar.'], function () {
-    Route::get(
-        '/',
-        [SearchController::class, 'index']
-    )->name('index');
 
     Route::get(
         'search',
@@ -67,7 +63,6 @@ Route::group(['prefix' => 'searchBar', 'as' => 'searchBar.'], function () {
 });
 
 Route::get("/contact", [ContactController::class, 'showContactPage']);
-Route::post("/contact", [ContactController::class, 'contact']);
 Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contact.submit');
 
 
