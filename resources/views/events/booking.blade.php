@@ -48,58 +48,58 @@
     </div>
 
 
-    
+
     {{-- booth booking form --}}
     @if($event->status === 'cancelled')
-      <div class="alert alert-danger">
-        This event has been cancelled. Booth booking is not allowed.
-      </div>
-    @else
-      @can('bookBooth', $event) {{-- Check if the user can book a booth for this event --}}
-      <form id="boothForm" action="{{ route('events.booking.process', ['event' => $event->id]) }}" method="POST">
+    <div class="alert alert-danger">
+    This event has been cancelled. Booth booking is not allowed.
+    </div>
+  @else
+  @can('bookBooth', $event) {{-- Check if the user can book a booth for this event --}}
+    <form id="boothForm" action="{{ route('events.booking.process', ['event' => $event->id]) }}" method="POST">
       @csrf
       <h4>Select Booth(s) to Book</h4>
 
       @if($booths->isEmpty())
-      <div class="alert alert-warning">No booths available for this event.</div>
+        <div class="alert alert-warning">No booths available for this event.</div>
 
-    @else
-    <div class="row">
-      @foreach($booths as $booth)
-      @php $isAvailable = is_null($booth->user_id) && $booth->status !== 'booked'; @endphp
-      <div class="col-md-4 mb-3">
-      <div class="card h-100 booth-card {{ $isAvailable ? '' : 'booth-unavailable' }}">
-      <div class="card-body">
-      <h5 class="card-title">{{ $booth->name }}</h5>
-      <p class="card-text">{{ $booth->description }}</p>
-      <p><strong>Price:</strong> ${{ number_format($booth->price, 2) }}</p>
-      <div class="form-check">
-      <input class="form-check-input booth-checkbox" type="checkbox" name="booths[]" value="{{ $booth->id }}"
-      id="booth{{ $booth->id }}" {{ $isAvailable ? '' : 'disabled' }}>
-      <label class="form-check-label" for="booth{{ $booth->id }}">
-      {{ $isAvailable ? 'Select' : 'Unavailable' }}
-      </label>
-      </div>
-      </div>
-      </div>
-      </div>
-    @endforeach
-    </div>
-
-    <div class="mt-4 text-end">
-      <button id="nextBtn" type="submit" class="btn btn-success" disabled>Next</button>
-    </div>
-  @endif
-      </form>
       @else
-      <div class="alert alert-info">
-        You are seeing this message due to these reasons:
-        <ul>
-          <li>You are not the owner of this event. <b>OR </b> </li>
-          <li>The event is <b style='color: red;'>cancelled</b>. Not available for booking any booth(s).</li>
-      </div>
-      @endcan
-    @endif
+        <div class="row">
+        @foreach($booths as $booth)
+          @php $isAvailable = is_null($booth->user_id) && $booth->status !== 'booked'; @endphp
+          <div class="col-md-4 mb-3">
+          <div class="card h-100 booth-card {{ $isAvailable ? '' : 'booth-unavailable' }}">
+          <div class="card-body">
+          <h5 class="card-title">{{ $booth->name }}</h5>
+          <p class="card-text">{{ $booth->description }}</p>
+          <p><strong>Price:</strong> ${{ number_format($booth->price, 2) }}</p>
+          <div class="form-check">
+          <input class="form-check-input booth-checkbox" type="checkbox" name="booths[]" value="{{ $booth->id }}"
+          id="booth{{ $booth->id }}" {{ $isAvailable ? '' : 'disabled' }}>
+          <label class="form-check-label" for="booth{{ $booth->id }}">
+          {{ $isAvailable ? 'Select' : 'Unavailable' }}
+          </label>
+          </div>
+          </div>
+          </div>
+          </div>
+        @endforeach
+        </div>
+
+  <div class="mt-4 text-end">
+  <button id="nextBtn" type="submit" class="btn btn-success" disabled>Next</button>
+  </div>
+@endif
+    </form>
+  @else
+    <div class="alert alert-info">
+    You are seeing this message due to these reasons:
+    <ul>
+    <li>You are not the owner of this event. <b>OR </b> </li>
+    <li>The event is <b style='color: red;'>cancelled</b>. Not available for booking any booth(s).</li>
+    </div>
+  @endcan
+@endif
 
     @if($errors->any())
     <div class="alert alert-danger mt-3">
