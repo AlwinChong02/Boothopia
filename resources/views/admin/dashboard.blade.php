@@ -23,22 +23,22 @@
                         <small class="text-muted text-uppercase" style="font-size: 0.65rem; font-weight: 650">{{ Auth::user()->role }}</small>
                     </a>
 
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{{ route('profile') }}">
-                                View Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                    </ul>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <!-- View Profile -->
+                        <a class="dropdown-item" href="{{ route('profile') }}">
+                            <i class="fas fa-user me-2" style="padding-right: 10px"></i>View Profile
+                        </a>
+
+                        <!-- Logout -->
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                         document.getElementById('logout').submit();">
+                            <i class="fas fa-sign-out-alt me-2" style="padding-right: 10px"></i>Logout
+                        </a>
+                        <form id="logout" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </div>
                 </div>
             </div>
 
