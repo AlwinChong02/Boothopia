@@ -95,7 +95,7 @@
     <div class="alert alert-info">
     You are seeing this message due to these reasons:
     <ul>
-    <li>You are not the owner of this event. <b>OR </b> </li>
+    <li>Insufficient permission or unauthorised to book booths. <b>OR </b> </li>
     <li>The event is <b style='color: red;'>cancelled</b>. Not available for booking any booth(s).</li>
     </div>
   @endcan
