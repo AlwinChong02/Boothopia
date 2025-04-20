@@ -43,3 +43,50 @@
     position: absolute;
     top: 0px;
 }
+
+/* Container wrap */
+.create-event-container {
+    max-width: 800px;
+  }
+  
+  /* Card tweaks */
+  .create-event-container .card {
+    border: none;
+    border-radius: .5rem;
+  }
+  
+  /* Headline */
+  .create-event-container .card-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  
+  /* Form labels */
+  .create-event-container .form-label {
+    font-weight: 500;
+  }
+  
+  /* Inputs */
+  .create-event-container .form-control,
+  .create-event-container .form-control-sm {
+    border-radius: .375rem;
+    border: 1px solid #ced4da;
+  }
+  
+  .create-event-container .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+  }
+  
+  /* Button */
+  .create-event-container .btn-primary {
+    background-color: #007bff;
+    border-radius: .375rem;
+    font-weight: 500;
+    transition: background-color .2s ease;
+  }
+  
+  .create-event-container .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  

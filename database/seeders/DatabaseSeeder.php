@@ -21,8 +21,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             EventSeeder::class,
             BoothSeeder::class,
-            PaymentSeeder::class, // Depends on Users and Booths
+            PaymentSeeder::class, 
             FeedbackSeeder::class, 
+            ApprovalSeeder::class, 
         ]);
 
         // Re-enable foreign key checks

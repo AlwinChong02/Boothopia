@@ -17,12 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->id(); 
             $table->decimal('amount', 8, 2);
             $table->string('transaction_id')->nullable();
-
-            
-            // Foreign key for the user making the payment
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Corresponds to 'user.id fk' referencing users table
-
-            // Foreign key for the booth being paid for.
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('booth_id')->constrained('booths')->onDelete('cascade');
 
             $table->timestamps();

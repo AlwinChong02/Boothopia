@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BoothController;
 use App\Http\Controllers\BoothBookingController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ApprovalController;
 
 
 /*
@@ -26,14 +28,13 @@ use App\Http\Controllers\EventController;
 |
 */
 
+
 // Auth::routes(); 
 
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/home', function () {
-//     return view('home');
-// })->name('home');
+
 Route::get('/navigationbar', function () {
     return view('navigationbar');
 });
@@ -46,49 +47,52 @@ Route::get('/contact', function () {
 Route::get('/about', function () {
     return view('about');
 });
-// Route::get('/search', function () {
-//     return view('search');
-// });
 
-Route::group(['prefix' => 'searchBar', 'as' => 'searchBar.'], function ()
-{
-    Route::get('/',
-        [SearchController::class, 'index']
-    )->name('index');
+Route::group(['prefix' => 'searchBar', 'as' => 'searchBar.'], function () {
 
-    Route::get('search',
+    Route::get(
+        'search',
         [SearchController::class, 'search']
     )->name('search');
 
-    Route::get('show',
+    Route::get(
+        'show',
         [SearchController::class, 'show']
     )->name('show');
 });
-// Route::get('/datatest', [Events::class, 'testData']);
-
-Route::get('page/{id}', [SearchController::class, 'pages'])->name('pages');
 
 Route::get("/contact", [ContactController::class, 'showContactPage']);
-Route::post("/contact", [ContactController::class, 'contact']);
 Route::post('/contact', [ContactController::class, 'addFeedback'])->name('contact.submit');
 
 
-//Booths
-Route::post('/booths/{id}/book', [BoothController::class, 'book'])->name('booths.book');
-
 //Events
-Route::get('/events', [EventController::class, 'index'])->name('events.index'); // List all events
-Route::get('/events/create', [EventController::class, 'create'])->name('events.create'); // Show create form
-Route::post('/events', [EventController::class, 'store'])->name('events.store'); // Store new event
-Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show'); // Show single event
-Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit'); // Show edit form
-Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update'); // Update event
-Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy'); // Delete event
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{id}', [EventController::class, 'show'])
+    ->whereNumber('id')
+    ->name('events.show');
+
+Route::middleware(['auth','role:organiser'])->group(function () {
+    Route::get('/events/create', [EventController::class, 'create'])
+        ->name('organiser.events.create');
+    Route::post('/events', [EventController::class, 'store'])
+        ->name('events.store');
+    Route::post('/events/{event}/cancel',[EventController::class, 'cancel'])->name('events.cancel');
+});
+
+Route::middleware(['auth','role:admin|organiser'])->group(function () {
+    Route::put('/events/{id}', [EventController::class, 'update'])
+        ->name('events.update');
+    Route::delete('/events/{id}', [EventController::class, 'destroy'])
+        ->name('events.destroy');
+});
 
 // Event booth booking routes
 Route::get('/events/{event}/booking', [BoothBookingController::class, 'showBooking'])->name('events.booking');
 Route::post('/events/{event}/booking', [BoothBookingController::class, 'processBooking'])->name('events.booking.process');
 Route::get('/booking/payment', [BoothBookingController::class, 'showPayment'])->name('booking.payment');
+
+// Payment approval image upload
+Route::post('/payment/approval', [PaymentController::class, 'uploadApproval'])->name('payment.approval');
 
 //login part
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->withoutMiddleware('auth');
@@ -112,7 +116,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Organiser Dashboard Route
 Route::middleware(['auth', 'role:organiser'])->group(function () {
-    Route::get('/organiser/dashboard', [OrganiserController::class, 'index'])->name('organiser.dashboard');
+    Route::get('/organiser/dashboard', [OrganiserController::class, 'dashboard'])->name('organiser.dashboard');
+    Route::get('/organiser/events/upcoming', [OrganiserController::class, 'upcoming'])->name('organiser.events.upcoming');
+    Route::get('/organiser/events/ongoing', [OrganiserController::class, 'ongoing'])->name('organiser.events.ongoing');
+    Route::get('/organiser/events/canceled', [OrganiserController::class, 'canceled'])->name('organiser.events.canceled');
+    Route::get('/organiser/events/all', [OrganiserController::class, 'all'])->name('organiser.events.all');
 });
 
 // Requester Dashboard Route
@@ -120,3 +128,14 @@ Route::middleware(['auth', 'role:requester'])->group(function () {
     Route::get('/requester/dashboard', [RequesterController::class, 'index'])->name('requester.dashboard');
 });
 
+Route::get('/events/create', [EventController::class, 'create'])
+    ->name('organiser.event.create');
+
+Route::post('/events', [EventController::class, 'store'])
+    ->name('organiser.event.store');
+
+Route::middleware(['auth', 'role:organiser'])->group(function () {
+    Route::get('/organiser/approval', [ApprovalController::class, 'index'])->name('organiser.approval');
+    Route::post('/organiser/approval/{id}/approve', [ApprovalController::class, 'approve'])->name('organiser.approval.approve');
+    Route::post('/organiser/approval/{id}/reject', [ApprovalController::class, 'reject'])->name('organiser.approval.reject');
+});

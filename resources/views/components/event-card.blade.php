@@ -2,7 +2,7 @@
   <div class="row g-0">
     @if($event->img)
     <div class="col-md-4">
-      <img src="{{ asset($event->img) }}" class="img-fluid rounded-start" alt="Event Image">
+    <img src="{{ asset('storage/' . ltrim($event->img, '/')) }}" alt="Event Image" class="img-fluid">
     </div>
     @endif
     <div class="col-md-8">

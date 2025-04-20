@@ -20,11 +20,10 @@ class FeedbackSeeder extends Seeder
             DB::table('feedbacks')->insert([
                 'name' => $faker->name,
                 'email' => $faker->safeEmail,
-                'subject' => $faker->catchPhrase,
                 'description' => $faker->paragraph(4),
-                'phone' => $faker->boolean(60) ? $faker->phoneNumber : null, // 60% chance of providing phone
                 'created_at' => now()->subDays($faker->numberBetween(0, 60)),
                 'updated_at' => now()->subDays($faker->numberBetween(0, 5)),
+                'created_by' => $faker->randomElement(DB::table('users')->pluck('id')->toArray()), // Assuming feedbacks are created by users
             ]);
         }
     }

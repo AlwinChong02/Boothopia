@@ -36,5 +36,22 @@
                 <p>We cater to a wide range of events, including weddings, birthday parties, corporate events, and any other special occasions where you want to capture fun and lasting memories.</p>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <section>
+        <div class="company-logo">
+                <img src="{{ asset('img/boothopiaLogo.png') }}"
+                     class="bth-cmp" width="400" height="300">
+            </div>
+        </section>
+            
 @endsection
 

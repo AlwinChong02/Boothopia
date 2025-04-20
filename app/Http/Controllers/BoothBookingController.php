@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Booth;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BoothBookingController extends Controller
 {
@@ -32,6 +35,7 @@ class BoothBookingController extends Controller
         if (empty($boothIds)) {
             return redirect()->back()->withErrors('Please select at least one booth.');
         }
+
         // Validate booth availability
         $availableBooths = Booth::where('event_id', $eventId)
             ->whereNull('user_id')
@@ -43,19 +47,22 @@ class BoothBookingController extends Controller
         // Store selection in session
         Session::put('booking.event_id', $eventId);
         Session::put('booking.booth_ids', $boothIds);
-        return redirect()->route('booking.payment');
+        return redirect()->route('booking.payment'); // Redirect to payment.blade.php
     }
 
     // Show payment page
-    public function showPayment()
+    public function showPayment(Request $request)
     {
-        $eventId = Session::get('booking.event_id');
-        $boothIds = Session::get('booking.booth_ids', []);
+        $eventId = session('booking.event_id');
+        $boothIds = session('booking.booth_ids', []);
         if (!$eventId || empty($boothIds)) {
             return redirect('/')->withErrors('No booking in progress.');
         }
         $event = Event::find($eventId);
         $booths = Booth::whereIn('id', $boothIds)->get();
-        return view('payment', compact('event', 'booths'));
+        $total = $booths->sum('price');
+        return view('payment', compact('event', 'booths', 'total')); // go to payment page with event and booth details and total price
     }
+
+
 }
