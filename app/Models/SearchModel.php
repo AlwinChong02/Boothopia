@@ -13,10 +13,7 @@ class SearchModel extends Model
         'name',
         'description',
     ];
-
     public function eventList(){
         return $this->all();
     }
-        
-    
 }

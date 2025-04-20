@@ -23,6 +23,4 @@ class ContactModel extends Model
     public function insertFeedbacks($insertData){
         return $this->create($insertData);
     }
-        
-    
 }
