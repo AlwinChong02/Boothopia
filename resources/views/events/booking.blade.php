@@ -4,15 +4,16 @@
     .booth-unavailable {
       opacity: .5;
       pointer-events: none;
-      border: 1px solid #dc3545 !important; 
+      border: 1px solid #dc3545 !important;
     }
+
     .card.booth-card.selected {
       border: 2px solid #007bff !important;
       box-shadow: 0 0 12px #007bff66 !important;
       z-index: 2;
     }
   </style>
-  
+
 </head>
 
 
@@ -25,29 +26,11 @@
     @if(session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
   @endif
+
     @if(session('error'))
     <div class="alert alert-danger">{{ session('error') }}</div>
   @endif
 
-    @php
-      $daysUntilStart = \Carbon\Carbon::today()
-      ->diffInDays(\Carbon\Carbon::parse($event->start_date));
-  @endphp
-
-    @if(Auth::id() === $event->user_id)
-    @if($daysUntilStart >= 7 && $event->status !== 'canceled')
-    <form action="{{ route('events.cancel', ['event' => $event->id]) }}" method="POST"
-    onsubmit="return confirm('Really cancel this event?');" class="mb-4">
-    @csrf
-    <button type="submit" class="btn btn-danger">Cancel Event</button>
-    </form>
-
-  @elseif($event->status !== 'canceled')
-  <div class="alert alert-warning mb-4">
-  You can only cancel 7 or more days before the event start date.
-  </div>
-@endif
-  @endif
 
     {{-- event details --}}
     <div class="card mb-4">
@@ -65,6 +48,7 @@
     </div>
 
     {{-- booth booking form --}}
+    @can('bookBooth', $event)
     <form id="boothForm" action="{{ route('events.booking.process', ['event' => $event->id]) }}" method="POST">
     @csrf
     <h4>Select Booth(s) to Book</h4>
@@ -100,6 +84,11 @@
   </div>
 @endif
     </form>
+    @else
+    <div class="alert alert-info">
+      Organisers cannot book booths for this event.
+    </div>
+    @endcan
 
     @if($errors->any())
     <div class="alert alert-danger mt-3">
@@ -113,24 +102,24 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const checkboxes = document.querySelectorAll('.booth-checkbox');
-      const nextBtn    = document.getElementById('nextBtn');
-      checkboxes.forEach(cb => {
-        cb.addEventListener('change', function() {
-          const card = this.closest('.booth-card');
-          if (this.checked) {
-            card.classList.add('selected');
-          } else {
-            card.classList.remove('selected');
-          }
-          nextBtn.disabled = document.querySelectorAll('.booth-checkbox:checked').length === 0;
-        });
-        // Initial state for pre-checked (if any)
-        if (cb.checked) {
-          cb.closest('.booth-card').classList.add('selected');
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('.booth-checkbox');
+    const nextBtn = document.getElementById('nextBtn');
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', function () {
+      const card = this.closest('.booth-card');
+      if (this.checked) {
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+      nextBtn.disabled = document.querySelectorAll('.booth-checkbox:checked').length === 0;
       });
+      // Initial state for pre-checked (if any)
+      if (cb.checked) {
+      cb.closest('.booth-card').classList.add('selected');
+      }
+    });
     });
   </script>
 @endsection

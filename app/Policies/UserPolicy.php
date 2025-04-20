@@ -51,4 +51,10 @@ class UserPolicy
     {
         return true;
     }
+
+    // Allow only requesters to book booths
+    public function bookBooth(User $user, $event)
+    {
+        return $user->role === 'requester';
+    }
 }
