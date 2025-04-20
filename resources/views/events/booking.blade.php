@@ -48,7 +48,7 @@
     </div>
 
     {{-- booth booking form --}}
-    @can('bookBooth', $event)
+    @can('bookBooth', $event) {{-- Check if the user can book a booth for this event --}}
     <form id="boothForm" action="{{ route('events.booking.process', ['event' => $event->id]) }}" method="POST">
     @csrf
     <h4>Select Booth(s) to Book</h4>
@@ -67,11 +67,11 @@
     <p class="card-text">{{ $booth->description }}</p>
     <p><strong>Price:</strong> ${{ number_format($booth->price, 2) }}</p>
     <div class="form-check">
-      <input class="form-check-input booth-checkbox" type="checkbox" name="booths[]" value="{{ $booth->id }}"
-      id="booth{{ $booth->id }}" {{ $isAvailable ? '' : 'disabled' }}>
-      <label class="form-check-label" for="booth{{ $booth->id }}">
-      {{ $isAvailable ? 'Select' : 'Unavailable' }}
-      </label>
+    <input class="form-check-input booth-checkbox" type="checkbox" name="booths[]" value="{{ $booth->id }}"
+    id="booth{{ $booth->id }}" {{ $isAvailable ? '' : 'disabled' }}>
+    <label class="form-check-label" for="booth{{ $booth->id }}">
+    {{ $isAvailable ? 'Select' : 'Unavailable' }}
+    </label>
     </div>
     </div>
     </div>
@@ -84,11 +84,11 @@
   </div>
 @endif
     </form>
-    @else
-    <div class="alert alert-info">
-      Organisers cannot book booths for this event.
-    </div>
-    @endcan
+  @else
+  <div class="alert alert-info">
+  Organisers cannot book booths for this event.
+  </div>
+@endcan
 
     @if($errors->any())
     <div class="alert alert-danger mt-3">
