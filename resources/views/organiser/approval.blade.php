@@ -5,33 +5,6 @@
 @section('content')
 
 <body>
-    <div class="d-flex justify-content-between align-items-center shadow-sm p-3 mb-4 bg-white rounded">
-        <h4 class="mb-0">Organiser Dashboard</h4>
-        <div class="dropdown">
-            <a class="d-flex flex-column text-decoration-none dropdown-toggle" href="#" role="button" id="userDropdown"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <strong>{{ Auth::user()->name }}</strong>
-                <small class="text-muted text-uppercase" style="font-size: 0.65rem; font-weight: 650">{{ Auth::user()->role }}</small>
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li>
-                    <a class="dropdown-item" href="{{ route('profile') }}">
-                        View Profile
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        Logout
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
     <div class="container approval-container mt-4">
         <h2>Approve or Reject Booth Bookings</h2>
 
