@@ -37,17 +37,6 @@ class EventPolicy
         return false;
     }
 
-    public function restore(User $user, Event $event)
-    {
-        return false;
-    }
-
-
-    public function forceDelete(User $user, Event $event)
-    {
-        return false;
-    }
-
     public function bookBooth(User $user, Event $event)
     {
         // Only allow requesters to book booths if the event is not canceled
