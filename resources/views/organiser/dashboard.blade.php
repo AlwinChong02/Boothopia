@@ -78,6 +78,26 @@
                     <strong>Date:</strong> {{ $event->start_date }} to {{ $event->end_date }}
                 </p>
                 <a href="{{ route('events.booking', $event->id) }}" class="btn btn-sm btn-primary">View Details</a>
+                    {{-- cancel event feature for organsier --}}
+    @php
+    $daysUntilStart = \Carbon\Carbon::today()
+    ->diffInDays(\Carbon\Carbon::parse($event->start_date));
+  @endphp
+
+  @if(Auth::id() === $event->user_id)
+    @if($daysUntilStart >= 7 && $event->status !== 'canceled')
+    <form action="{{ route('events.cancel', ['event' => $event->id]) }}" method="POST"
+    onsubmit="return confirm('Really cancel this event?');" class="mb-4">
+      @csrf
+      <button type="submit" class="btn btn-danger">Cancel Event</button>
+    </form>
+
+    @elseif($event->status !== 'canceled')
+    <div class="alert alert-warning mb-4">
+    You can only cancel 7 or more days before the event start date.
+    </div>
+    @endif
+  @endif
             </div>
             @endforeach
             @endif
