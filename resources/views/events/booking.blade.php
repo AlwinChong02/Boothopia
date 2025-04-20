@@ -7,6 +7,12 @@
       border: 1px solid #dc3545 !important;
     }
 
+    .booth-available{
+      opacity: 1;
+      pointer-events: auto;
+      border: 1px solid #28a745 !important;
+    }
+
     .card.booth-card.selected {
       border: 2px solid #007bff !important;
       box-shadow: 0 0 12px #007bff66 !important;
@@ -99,6 +105,31 @@
     <li>The event is <b style='color: red;'>cancelled</b>. Not available for booking any booth(s).</li>
     </div>
   @endcan
+
+  @can('isOrganiser', $event) {{-- Check if the user is the organiser of the event --}}
+{{-- list all the booth status in booth-form, only cannot book any booths --}}
+    <h4>Booth Booking Status</h4>
+    <div class="row">
+      @foreach($booths as $booth)
+        <div class="col-md-4 mb-3">
+          <div class="card h-100  {{ $booth->status =='booked' ? 'booth-unavailable' : 'booth-available' }} booth-card">
+            <div class="card-body">
+              <h5 class="card-title">{{ $booth->name }}</h5>
+              <p class="card-text">{{ $booth->description }}</p>
+              <p><strong>Price:</strong> ${{ number_format($booth->price, 2) }}</p>
+              <p><strong>Status:</strong> {{ $booth->status }}</p>
+              @if($booth->user_id)
+                <p><strong>Booked By:</strong> {{ $booth->user->name ?? 'Unknown' }}</p>
+              @endif
+            </div>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+  @endcan
+
+
 @endif
 
     @if($errors->any())
