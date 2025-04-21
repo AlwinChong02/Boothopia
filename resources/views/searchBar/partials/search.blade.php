@@ -34,7 +34,7 @@
         });
 
         $(document).on('click', '.post-link', function () {
-            window.location.href = "/events/" + $(this).data('id');
+            window.location.href = "/events/" + $(this).data('id') + '/booking';
         });
     });
 </script>
