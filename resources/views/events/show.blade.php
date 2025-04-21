@@ -18,6 +18,9 @@
         @else
             <div class="row">
                 @foreach($event->booths as $booth)
+                @php
+                $isAvailable = is_null($booth->user_id) && $booth->status !== 'booked';
+                @endphp
                     <div class="col-md-4 mb-3">
                         <x-booth-card 
                             :id="$booth->id" 
@@ -28,6 +31,7 @@
                             :price="$booth->price" 
                             :event_id="$booth->event_id"
                             :user_id="$booth->user_id" 
+                            :is-available="$isAvailable"
                             />
                             
                         {{-- @if($booth->user_id)
